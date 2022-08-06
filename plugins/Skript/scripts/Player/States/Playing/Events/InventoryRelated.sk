@@ -1,0 +1,17 @@
+on drop:
+  if {player::%player%::state} is "playing":
+    wait 3 ticks
+    Player_PlayingState_Inventory_calculateMass(player)
+    Player_PlayingState_Inventory_saveInventory(player)
+
+on pickup:
+  if {player::%player%::state} is "playing":
+    wait 3 ticks
+    Player_PlayingState_Inventory_calculateMass(player)
+    Player_PlayingState_Inventory_saveInventory(player)
+
+on inventory click:
+  if {player::%player%::state} is "playing":
+    if "%name of player's current inventory%" is "container.crafting":
+      wait 3 ticks
+      Player_PlayingState_Inventory_saveInventory(player)

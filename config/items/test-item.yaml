@@ -1,0 +1,29 @@
+carrot:
+  # Normal carrot
+  normal:
+    type: food
+    
+    # Item visual information
+    item:
+      id: carrot
+      name: "Морковка"
+      lore:
+      - "Простая морковка"
+      # model:  
+
+    # Mass information
+    mass: 55
+
+    # Ingredient information
+    isIngredient: true
+
+    # Attributes information
+    attributes:
+      slicable:
+        to: carrot.sliced
+        quantity: 3-5
+
+  # Sliced carrot
+  sliced:
+    type: food
+    isIngredient: true

@@ -1,0 +1,26 @@
+function Items_Food_parseSlicedAction(path: string, file: string):
+  # Getting infromation
+  set {_to} to yaml value "%{_path}%.attributes.slicable.to" from {_file}
+  
+  # Parsing quantity
+  set {_quantity} to yaml value "%{_path}%.attributes.slicable.quantity" from {_file}
+  if {_quantity} contains "-":
+    set {_temp::*} to {_quantity} split at "-"
+
+    set {_min} to {_temp::1} parsed as number ? 1
+    set {_max} to {_temp::2} parsed as number ? 4
+  
+    delete {_quantity}
+  else:
+    set {_quantity} to "%{_quantity}%" parsed as number
+    if {_quantity} is not set:
+      set {_quantity} to 1
+
+  # Saving information
+  set {item::%{_path}%::slicable} to true
+
+  if {_quantity} is not set:
+    set {item::%{_path}%::slicable::quantity::min} to {_min}
+    set {item::%{_path}%::slicable::quantity::max} to {_max}
+  else:
+    set {item::%{_path}%::slicable::quantity} to {_quantity}

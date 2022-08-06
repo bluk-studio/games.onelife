@@ -1,0 +1,31 @@
+options:
+  rootFolder: "config/items"
+
+on script load:
+  wait 1 second
+
+  # Loading all items from different categories
+  # Getting all directories
+  set {_directories::*} to {@rootFolder}
+  load all yaml from directory {_directories::*}
+
+  # Processing all loaded yaml files
+  loop all currently loaded yaml files:
+    set {_file} to loop-value
+
+    loop all yaml nodes of {_file}:
+      set {_path} to loop-value-2
+      set {_value} to yaml value loop-value-2 from {_file}
+
+      if {_path} ends with "type":
+        # Replacing
+        replace all ".type" in {_path} with ""
+
+        # Getting node type
+        if {_value} is "food":
+          if Items_General_loadItem({_path}, {_file}) is true:
+            Items_Food_loadItem({_path}, {_file})
+
+on script unload:
+  delete {items::*}
+  delete {item::*}

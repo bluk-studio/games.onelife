@@ -1,0 +1,33 @@
+function Player_ChoosingCharacterState_ChoosingCharacterInventory_update(player: player, isHovering: boolean):
+  if {_isHovering} is true:
+    set {_item} to player head named "Переключить персонажа"
+    add "{SkullOwner:{Id:""1f961930-4e97-47b7-a5a1-2cc5150f3764"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=""}]}}}" to item-nbt of {_item}
+
+    add {_item} to {_items::*}
+  else:
+    # Play button
+    set {_play} to player head named "&fИграть за этого персонажа"
+    add "{SkullOwner:{Id:""fd0c2633-9fdb-4049-87fb-222616d96066"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmE4ZjZiMTMxZWY4NDdkOTE2MGU1MTZhNmY0NGJmYTkzMjU1NGQ0MGMxOGE4MTc5NmQ3NjZhNTQ4N2I5ZjcxMCJ9fX0=""}]}}}" to item-nbt of {_play}
+
+    # Edit button
+    set {_edit} to player head named "&fРедактировать персонажа"
+    add "{SkullOwner:{Id:""538a7620-6569-4421-8675-7261b22a7617"",Properties:{textures:[{Value:""eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=""}]}}}" to item-nbt of {_edit}
+
+    add {_play} and {_edit} to {_items::*}
+
+  set {_empty} to air
+
+  # Getting hotbar slots for this items
+  set {_itemSlots::*} to Helper_getSlotsForItems(size of {_items::*}) 
+
+  # Empty items
+  loop numbers from 0 to 8:
+    if {_itemSlots::*} doesn't contain loop-value:
+      set slot loop-value of {_player}'s inventory to {_empty}
+
+  # Hotbar items
+  loop {_items::*}:
+    set {_slot} to first element of {_itemSlots::*}
+    remove {_slot} from {_itemSlots::*}
+
+    set slot {_slot} of {_player}'s inventory to loop-value

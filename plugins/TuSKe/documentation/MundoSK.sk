@@ -1,0 +1,1738 @@
+Events:
+	On Armor Stand Place Event:
+		ID: armor_stand_place_event
+		Patterns:
+			[on] armor stand place
+		Event values:
+			event-spawnreason
+			event-entity
+			event-block
+			event-location
+			event-itemtype
+			event-world
+			event-commandsender
+		Cancellable: true
+	On Border Stabilize:
+		ID: border_stabilize
+		Patterns:
+			[on] border stabilize [in %-worlds%]
+		Event values:
+			event-world
+		Cancellable: false
+	On Custom Element Event:
+		ID: custom_element_event
+		Patterns:
+			[on] [light_jsoup] [new] [custom] effect %string%
+		Event values:
+			none
+		Cancellable: false
+	On Custom Event:
+		ID: custom_event
+		Patterns:
+			[on] ev[en]t %strings%
+		Event values:
+			event-timeperiod
+			event-integer
+			event-gamerulevalue
+			event-metadataholder
+			event-color
+			event-player
+			event-resourcepackstate
+			event-weathertype
+			event-entitydata
+			event-playerloginresult
+			event-entity
+			event-gamemode
+			event-inventoryaction
+			event-date
+			event-codeblock
+			event-itemtype
+			event-fireworktype
+			event-inventory
+			event-websocket
+			event-spawnreason
+			event-dimension
+			event-skulltype
+			event-classinfo
+			event-block
+			event-enchantmenttype
+			event-handshake
+			event-biomegrid
+			event-enchantment
+			event-material
+			event-time
+			event-vector
+			event-potioneffecttype
+			event-projectile
+			event-cachedservericon
+			event-itementity
+			event-stacktraceelement
+			event-customenchantment
+			event-potioneffect
+			event-attributetype
+			event-direction
+			event-hangingremovecause
+			event-websocketstate
+			event-chunkdata
+			event-damagecause
+			event-instrument
+			event-worldtype
+			event-entitytype
+			event-visualeffect
+			event-inventorytype
+			event-timespan
+			event-location
+			event-packet
+			event-random
+			event-long
+			event-structuretype
+			event-regex
+			event-offlineplayer
+			event-teleportcause
+			event-chunk
+			event-note
+			event-biome
+			event-object
+			event-packettype
+			event-livingentity
+			event-enchantmentoffer
+			event-jsonobject
+			event-throwable
+			event-boolean
+			event-byte
+			event-itemstack
+			event-recipe
+			event-creator
+			event-slot
+			event-difficulty
+			event-soundcategory
+			event-experience
+			event-fireworkeffect
+			event-healreason
+			event-string
+			event-skin
+			event-double
+			event-short
+			event-number
+			event-guiinventory
+			event-world
+			event-clicktype
+			event-float
+			event-commandsender
+			event-inventoryholder
+			event-slottype
+		Cancellable: true
+	On Generator:
+		ID: generator
+		Patterns:
+			[on] [custom] [(world|chunk)] generator %string%
+		Event values:
+			event-chunkdata
+			event-random
+			event-biomegrid
+			event-world
+			event-chunk
+		Cancellable: false
+	On Packet Event:
+		ID: packet_event
+		Patterns:
+			[on] packet event %packettypes%
+		Event values:
+			event-packettype
+			event-packet
+			event-player
+		Cancellable: true
+	On Packet Info Alias:
+		ID: packet_info_alias
+		Patterns:
+			[on] packet info aliases for %packettype%
+		Event values:
+			event-packet
+		Cancellable: false
+	On Unhang Event:
+		ID: unhang_event
+		Patterns:
+			[on] unhang [due to %-hangingremovecauses%]
+		Event values:
+			event-hangingremovecause
+			event-entity
+			event-location
+			event-world
+			event-entity
+		Cancellable: true
+	On WebSocket Client:
+		ID: websocket_client
+		Patterns:
+			[on] websocket client %string%
+		Event values:
+			event-websocket
+			event-string
+			event-number
+			event-throwable
+			event-boolean
+		Cancellable: false
+	On WebSocket Server:
+		ID: websocket_server
+		Patterns:
+			[on] websocket server %string%
+		Event values:
+			event-websocket
+			event-string
+			event-number
+			event-throwable
+			event-boolean
+		Cancellable: false
+Conditions:
+	CondBoolean:
+		ID: CondBoolean
+		Patterns:
+			[(not)] %boolean%
+	CondProbabilityValue:
+		ID: CondProbabilityValue
+		Patterns:
+			%number% prob[ability]
+	ScopeAsync:
+		ID: ScopeAsync
+		Patterns:
+			async [in %-timespan%]
+	ScopeCatch:
+		ID: ScopeCatch
+		Patterns:
+			catch in %object%
+	ScopeMatcher:
+		ID: ScopeMatcher
+		Patterns:
+			(switch|match) %object%
+	ScopeMatches:
+		ID: ScopeMatches
+		Patterns:
+			(case|matches) %object%
+	ScopeProbability:
+		ID: ScopeProbability
+		Patterns:
+			prob[ability]
+			random chance
+	ScopeSaveCodeBlock:
+		ID: ScopeSaveCodeBlock
+		Patterns:
+			codeblock %object% [with (constant|constant %-object%|constants %-objects%)] [:: %-strings%] [-> %-string%]
+	ScopeSync:
+		ID: ScopeSync
+		Patterns:
+			(sync|in %-timespan%)
+	ScopeTry:
+		ID: ScopeTry
+		Patterns:
+			try
+	ScopeWhen:
+		ID: ScopeWhen
+		Patterns:
+			when %boolean% [by %-timespan%]
+Effects:
+	EffAddRemoveArrayTabs:
+		ID: EffAddRemoveArrayTabs
+		Patterns:
+			add ([a] (column|row)|%-number% (column|row)s) [with icon %-skin%] to [the] [array] tablist[s] [of (%-players%|group %-string%)]
+			add ([a] (column|row)|%-number% (column|row)s) [with icon %-skin%] to [(%-players%|group %-string%)'[s]] [array] tablist[s]
+			remove ([a] (column|row)|%-number% (column|row)s) from [the] [array] tablist[s] [of (%-players%|group %-string%)]
+			remove ([a] (column|row)|%-number% (column|row)s) from [(%-players%|group %-string%)'[s]] [array] tablist[s]
+	EffAddToTablistGroup:
+		ID: EffAddToTablistGroup
+		Patterns:
+			add %players% to tablist group %string%
+	EffAsyncSetVar:
+		ID: EffAsyncSetVar
+		Patterns:
+			async set %objects% to %objects%
+	EffCallCustomEvent:
+		ID: EffCallCustomEvent
+		Patterns:
+			(call|async call|call async) custom event %strings% [to] [det[ail]s %-objects%] [arg[ument]s %-objects%]
+	EffChangeBorderDiameter:
+		ID: EffChangeBorderDiameter
+		Patterns:
+			set (diameter|side length|size) of %world% to %number% over %timespan%
+			set %world%'s (diameter|side length|size) to %number% over %timespan%
+			set (diameter|side length|size) of %world% over %timespan% to %number%
+			set %world%'s (diameter|side length|size) over %timespan% to %number%
+			add %number% to (diameter|side length|size) of %world% over %timespan%
+			add %number% to %world%'s (diameter|side length|size) over %timespan%
+			(remove|subtract) %number% from (diameter|side length|size) of %world% over %timespan%
+			(remove|subtract) %number% from %world%'s (diameter|side length|size) over %timespan%
+	EffClearPlayerModifications:
+		ID: EffClearPlayerModifications
+		Patterns:
+			(clear|reset) [all] player tab modifications [for (%-players%|group %-string%)]
+	EffCloseFunctionSocket:
+		ID: EffCloseFunctionSocket
+		Patterns:
+			close function socket at port %number%
+	EffCloseWebSocket:
+		ID: EffCloseWebSocket
+		Patterns:
+			close websocket %websocket% [with message %-string%]
+	EffCreateSimpleTab:
+		ID: EffCreateSimpleTab
+		Patterns:
+			create [a] ([simple] tab [with] id|simple tab) %string% [for (%-players%|group %-string%)] [with [priority %-string%] [[display] name %-string%] [(ping|latency) [bars] %-number%] [(head|icon|skull) %-skin%] [score %-number%]]
+	EffCreateWorld:
+		ID: EffCreateWorld
+		Patterns:
+			create [new] [(auto[matically ]loaded)] world named %string%[( with|,)] [(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]
+	EffCreateWorldUsingCreator:
+		ID: EffCreateWorldUsingCreator
+		Patterns:
+			create [new] [(auto[matically ]loaded)] world [named %-string%] using %creator%
+	EffDeleteAllSimpleTabs:
+		ID: EffDeleteAllSimpleTabs
+		Patterns:
+			delete all (id|simple) tabs [for (%-players%|group %-string%)]
+	EffDeleteGroup:
+		ID: EffDeleteGroup
+		Patterns:
+			delete tablist group %string%
+	EffDeleteSimpleTab:
+		ID: EffDeleteSimpleTab
+		Patterns:
+			delete [the] ([simple] tab [with] id|simple tab) %string% [for (%-players%|group %-string%)]
+	EffDeleteWorld:
+		ID: EffDeleteWorld
+		Patterns:
+			delete %world%
+	EffDuplicateWorld:
+		ID: EffDuplicateWorld
+		Patterns:
+			duplicate %world% (with|using) name %string%
+	EffEmptyGroup:
+		ID: EffEmptyGroup
+		Patterns:
+			empty tablist group %string%
+	EffEnableDisableArrayTablist:
+		ID: EffEnableDisableArrayTablist
+		Patterns:
+			(enable|activate) [the] array tablist [for (%-players%|group %-string%)] [with [%-number% columns] [%-number% rows] [(default|initial) (head|icon|skull) %-skin%]]
+			(disable|deactivate) [the] array tablist [for (%-players%|group %-string%)]
+	EffEnableDisableScores:
+		ID: EffEnableDisableScores
+		Patterns:
+			(enable|disable) scores in [the] tablist[s] [of (%-players%|group %-string%)]
+			(enable|disable) scores in [(%-players%|group %-string%)'[s]] tablist[s]
+	EffInsertElements:
+		ID: EffInsertElements
+		Patterns:
+			(add|insert) %objects% (before|after) (page %-number%|last page) (of|in) %itemstack%
+			(add|insert) %objects% (before|after) ((elem|element) %-number%|last (elem|element)) (of|in) %objects%
+	EffLoadChunk:
+		ID: EffLoadChunk
+		Patterns:
+			(load|unload) chunk %chunk%
+	EffLoadWorldAutomatically:
+		ID: EffLoadWorldAutomatically
+		Patterns:
+			[(don't|do not)] load %world% automatically
+			[(don't|do not)] autoload %world%
+	EffMoveElements:
+		ID: EffMoveElements
+		Patterns:
+			move %objects% (-front|-forward[s]|back[ward[s]]) %number%
+	EffOpenFunctionSocket:
+		ID: EffOpenFunctionSocket
+		Patterns:
+			open function socket at port %number% [with password %-string%] [through function %-string%]
+	EffPacketInfo:
+		ID: EffPacketInfo
+		Patterns:
+			packet info %packet%
+	EffPlayNoteBlock:
+		ID: EffPlayNoteBlock
+		Patterns:
+			play [[%-note% with] %-instrument% on] noteblock %block%
+	EffPrintStackTrace:
+		ID: EffPrintStackTrace
+		Patterns:
+			print stack trace of %throwable%
+	EffPutJsonInListVariable:
+		ID: EffPutJsonInListVariable
+		Patterns:
+			put json %jsonobject% in listvar %objects%
+			put jsons %jsonobjects% in listvar %objects%
+	EffReceivePacket:
+		ID: EffReceivePacket
+		Patterns:
+			rec(ei|ie)ve packet[s] %packets% from %players%
+	EffRemoveFromTablistGroup:
+		ID: EffRemoveFromTablistGroup
+		Patterns:
+			remove %players% from tablist group %string%
+	EffResetBorder:
+		ID: EffResetBorder
+		Patterns:
+			reset %world%
+	EffRetrieveSkin:
+		ID: EffRetrieveSkin
+		Patterns:
+			retrieve [(slim)] skin from (file|url) %-string% [[with] timeout %-timespan%] into %object%
+			retrieve skin (of %-offlineplayer%|from uuid %-string%) [[with] timeout %-timespan%] into %object%
+	EffRunCodeBlock:
+		ID: EffRunCodeBlock
+		Patterns:
+			((run|execute) codeblock|codeblock (run|execute)) %codeblocks% [(with %-objects%|with variables %-objects%|in a chain|here|with variables %-objects% in a chain)]
+	EffSendPacket:
+		ID: EffSendPacket
+		Patterns:
+			send packet[s] %packets% to %players%
+			send %players% packet[s] %packets%
+	EffSetRegionInChunkData:
+		ID: EffSetRegionInChunkData
+		Patterns:
+			fill region from %number%, %number%, %number% to %number%, %number%, %number% in %chunkdata% with %itemstack%
+			fill layer %number% in %chunkdata% with %itemstack%
+			fill layers %number% to %number% in %chunkdata% with %itemstack%
+	EffShowHidePlayerTab:
+		ID: EffShowHidePlayerTab
+		Patterns:
+			(show|hide) [the] [player] tab[s] of %players% [for (%-players%|group %-string%)]
+			(show|hide) %players%'[s] [player] tab[s] [for (%-players%|group %-string%)]
+			(show|hide) %players% in [(%-players%|group %-string%)'[s]] tablist[s]
+			(show|hide) %players% in [the] tablist[s] [of (%-players%|group %-string%)]
+			(show|hide) %players% [for (%-players%|group %-string%)] in [the] tablist[s]
+	EffStartWebSocketServer:
+		ID: EffStartWebSocketServer
+		Patterns:
+			start [a] websocket server %string% at port %number%
+	EffStopWebSocketServer:
+		ID: EffStopWebSocketServer
+		Patterns:
+			stop [the] websocket server at port %number% [with timeout %-number%]
+	EffUnloadWorld:
+		ID: EffUnloadWorld
+		Patterns:
+			unload %world% [save %-boolean%]
+	EffWait:
+		ID: EffWait
+		Patterns:
+			[(async)] wait (until|while) %boolean% [for %-timespan%] [by %-timespan%]
+	EffWaitAsync:
+		ID: EffWaitAsync
+		Patterns:
+			async wait %timespan%
+	EffWebSocketSendMessage:
+		ID: EffWebSocketSendMessage
+		Patterns:
+			websocket send %strings% [through %websockets%]
+	EffWriteToSocket:
+		ID: EffWriteToSocket
+		Patterns:
+			write %strings% to socket with host %string% port %number% [with timeout %-timespan%] [to handle response through function %-string% with id %-string%]
+Expressions:
+	CondArrayTablistEnabled:
+		ID: CondArrayTablistEnabled
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			[the] array tablist is (enabled|disabled) [for (%-players%|group %-string%)]
+	CondBeyondBorder:
+		ID: CondBeyondBorder
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			%locations% (is|are) (within|beyond) border
+	CondBorderMoving:
+		ID: CondBorderMoving
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			border of %world% is (moving|stable)
+			%world%'s border is (moving|stable)
+	CondChunkLoaded:
+		ID: CondChunkLoaded
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			[chunk[s]] %chunks% (is|are|isn't|is not|aren't|are not) loaded
+	CondCollidable:
+		ID: CondCollidable
+		Return type: Boolean
+		Changers:
+			set
+		Patterns:
+			%livingentities% (is|are|isn't|is not|aren't|are not) collidable
+	CondFunctionSocketIsOpen:
+		ID: CondFunctionSocketIsOpen
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			function socket is open at port %number%
+	CondLastCustomEventCancelled:
+		ID: CondLastCustomEventCancelled
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			last [called] custom event (was|wasn't) cancelled
+	CondPlayerTabIsVisible:
+		ID: CondPlayerTabIsVisible
+		Return type: Boolean
+		Changers:
+			set
+		Patterns:
+			[the] [player] tab of %player% is (visible|hidden) [for (%-players%|group %-string%)]
+			%player%'s [player] tab is (visible|hidden) [for (%-players%|group %-string%)]
+			%player% is (visible|hidden) in [(%-players%|group %-string%)'[s]] tablist[s]
+			%player% is (visible|hidden) in [the] tablist[s] [(for|of) (%-players%|group %-string%)]
+	CondPlayerTabsAreVisible:
+		ID: CondPlayerTabsAreVisible
+		Return type: Boolean
+		Changers:
+			set
+		Patterns:
+			player tabs (are|aren't|are not) visible [for (%-players%|group %-string%)]
+			[(%-players%|group %-string%)'[s]] tablist[s] (contains|(does|do|doesn't|does not|don't|do not) contain) players
+			[the] tablist[s] [of (%-players%|group %-string%)] (contains|(does|do|doesn't|does not|don't|do not) contain) players
+			players are (visible|hidden) in [the] tablist[s] [(for|of) (%-players%|group %-string%)]
+			players are (visible|hidden) in [(%-players%|group %-string%)'[s]] tablist[s]
+	CondRequestIsAccepted:
+		ID: CondRequestIsAccepted
+		Return type: Boolean
+		Changers:
+			set
+		Patterns:
+			[the] [websocket] request [handshake] is (accepted|refused)
+	CondScoresEnabled:
+		ID: CondScoresEnabled
+		Return type: Boolean
+		Changers:
+			set
+		Patterns:
+			scores [are] (enabled|disabled) in [the] tablist[s] [of (%-players%|group %-string%)]
+			scores [are] (enabled|disabled) in [(%-players%|group %-string%)'[s]] tablist[s]
+	CondServerSocketIsOpen:
+		ID: CondServerSocketIsOpen
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			server socket is open at host %string% port %number% [with timeout of %-timespan%]
+	CondSlimey:
+		ID: CondSlimey
+		Return type: Boolean
+		Changers:
+			none
+		Patterns:
+			%chunks% (is|are|isn't|is not|aren't|are not) slimey
+	ExprAllAutomaticCreators:
+		ID: ExprAllAutomaticCreators
+		Return type: World Creator
+		Changers:
+			add
+			remove
+		Patterns:
+			[all] auto[matic ]creators
+	ExprAllTypes:
+		ID: ExprAllTypes
+		Return type: Type
+		Changers:
+			none
+		Patterns:
+			all types
+	ExprAllWebSockets:
+		ID: ExprAllWebSockets
+		Return type: WebSocket
+		Changers:
+			none
+		Patterns:
+			all [[of] the] websockets [of [the] server at port %-number%]
+	ExprAmountOfPlayers:
+		ID: ExprAmountOfPlayers
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			(shown|sent) (amount of|max [amount of]) players
+	ExprArgsOfCustomEvent:
+		ID: ExprArgsOfCustomEvent
+		Return type: Object
+		Changers:
+			none
+		Patterns:
+			args of custom event
+			custom event's args
+	ExprAuthorOfBook:
+		ID: ExprAuthorOfBook
+		Return type: Text
+		Changers:
+			add
+			set
+		Patterns:
+			[the] author of %itemstacks%
+			%itemstacks%'[s] author
+	ExprAutomaticCreator:
+		ID: ExprAutomaticCreator
+		Return type: World Creator
+		Changers:
+			set
+			delete
+		Patterns:
+			auto[matic ]creator [for world [named]] %string%
+	ExprBiomeInGrid:
+		ID: ExprBiomeInGrid
+		Return type: Biome
+		Changers:
+			set
+		Patterns:
+			biome at %number%, %number% in grid %biomegrid%
+	ExprBook:
+		ID: ExprBook
+		Return type: Item / Material
+		Changers:
+			none
+		Patterns:
+			[written] book titled %string%[,] [written] by %string%[,] [with] pages %strings%
+	ExprBorderMovingValue:
+		ID: ExprBorderMovingValue
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			(original (diameter|side length|size)|(eventual|final) (diameter|side length|size)|remaining distance until [the] border stabilize[s]) of %world%
+			%world%'s (original (diameter|side length|size)|(eventual|final) (diameter|side length|size)|remaining distance until [the] border stabilize[s])
+	ExprBranch:
+		ID: ExprBranch
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			branch
+	ExprCause:
+		ID: ExprCause
+		Return type: Throwable
+		Changers:
+			none
+		Patterns:
+			[the] throwable cause of %throwable%
+			%throwable%'[s] throwable cause
+	ExprCenterOfBorder:
+		ID: ExprCenterOfBorder
+		Return type: Location
+		Changers:
+			set
+		Patterns:
+			[the] center of %world%
+			%world%'[s] center
+	ExprChunk:
+		ID: ExprChunk
+		Return type: Chunk
+		Changers:
+			none
+		Patterns:
+			chunk %number%, %number% [in %world%]
+			chunks [from] %number%, %number% to %number%, %number% [in %world%]
+			chunk at %location%
+			chunks from %location% to %location%
+	ExprChunkBlock:
+		ID: ExprChunkBlock
+		Return type: Block
+		Changers:
+			add
+			set
+			remove
+			remove all
+			delete
+		Patterns:
+			block %number%, %number%, %number% (of|in) %chunk%
+			(layer %-number%|top|bottom|sea level) (south|north)(east|west) (center|corner) of %chunk%
+	ExprChunkBlocks:
+		ID: ExprChunkBlocks
+		Return type: Block
+		Changers:
+			add
+			set
+			remove
+			remove all
+			delete
+		Patterns:
+			[all] blocks (of|in) %chunk%
+			blocks [from] %number%, %number%, %number% to %number%, %number%, %number% (of|in) %chunk%
+			(layer %-number%|top|bottom|sea level) (of|in) %chunk%
+			[[blocks] from] (layer %-number%|top|bottom|sea level) to (layer %-number%|top|bottom|sea level) (of|in) %chunk%
+			layers [from] %number% to %number% (of|in) %chunk%
+	ExprChunkCoordinate:
+		ID: ExprChunkCoordinate
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			chunk( |-)(x|z)[( |-)coord] of %chunk%
+			%chunk%'s chunk( |-)(x|z)[( |-)coord]
+	ExprChunkWorld:
+		ID: ExprChunkWorld
+		Return type: World
+		Changers:
+			none
+		Patterns:
+			chunk world of %chunk%
+			%chunk%'s chunk world
+	ExprCompletions:
+		ID: ExprCompletions
+		Return type: Text
+		Changers:
+			unknown
+		Patterns:
+			completions
+	ExprContent:
+		ID: ExprContent
+		Return type: Number
+		Changers:
+			set
+		Patterns:
+			[the] handshake content of %handshake%
+	ExprCreatorOf:
+		ID: ExprCreatorOf
+		Return type: World Creator
+		Changers:
+			none
+		Patterns:
+			[the] creator of %world%
+			%world%'[s] creator
+	ExprCurrentChunkCoordinate:
+		ID: ExprCurrentChunkCoordinate
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			current x
+			current z
+	ExprCurrentWorlds:
+		ID: ExprCurrentWorlds
+		Return type: World
+		Changers:
+			none
+		Patterns:
+			[all] current worlds
+	ExprDefaultIcon:
+		ID: ExprDefaultIcon
+		Return type: Skin Texture
+		Changers:
+			set
+			reset
+		Patterns:
+			[the] (initial|default) (head|icon|skull) (in|of) [the] tablist[s] [of (%-players%|group %-string%)]
+			[the] (intial|default) (head|icon|skull) (in|of) [(%-players%|group %-string%)'[s]] [array] tablist[s]
+	ExprDestination:
+		ID: ExprDestination
+		Return type: Location
+		Changers:
+			none
+		Patterns:
+			destination
+	ExprDetails:
+		ID: ExprDetails
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] details of %throwable%
+			%throwable%'[s] details
+	ExprDifficulty:
+		ID: ExprDifficulty
+		Return type: Difficulty
+		Changers:
+			set
+		Patterns:
+			[the] difficulty of %world%
+			%world%'[s] difficulty
+	ExprDimensionOfArrayTablist:
+		ID: ExprDimensionOfArrayTablist
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+		Patterns:
+			[the] amount of (column|row)s in [(%-players%|group %-string%)'[s]] [array] tablist[s]
+	ExprDimensionOfCreator:
+		ID: ExprDimensionOfCreator
+		Return type: Dimension
+		Changers:
+			unknown
+		Patterns:
+			[the] dim of %creator%
+			%creator%'[s] dim
+			[the] dimension of %creator%
+			%creator%'[s] dimension
+			[the] env of %creator%
+			%creator%'[s] env
+			[the] environment of %creator%
+			%creator%'[s] environment
+	ExprDisplayNameOfArrayTab:
+		ID: ExprDisplayNameOfArrayTab
+		Return type: Text
+		Changers:
+			set
+			reset
+		Patterns:
+			[the] [display] name of [the] [array] tab %number%, %number% [for (%-players%|group %-string%)]
+	ExprDisplayNameOfPlayerTab:
+		ID: ExprDisplayNameOfPlayerTab
+		Return type: Text
+		Changers:
+			set
+			delete
+			reset
+		Patterns:
+			[the] [display] name of [the] [player] tab of %player% [for (%-players%|group %-string%)]
+			[the] [display] name of %player%'s [player] tab [for (%-players%|group %-string%)]
+			[the] tablist name of %player% [for (%-players%|group %-string%)]
+			%player%'s tablist name [for (%-players%|group %-string%)]
+	ExprDisplayNameOfSimpleTab:
+		ID: ExprDisplayNameOfSimpleTab
+		Return type: Text
+		Changers:
+			set
+			reset
+		Patterns:
+			[the] [display] name of [the] ([simple] tab [with] id|simple tab) %string% [for (%-players%|group %-string%)]
+	ExprDisplayedSkinOfPlayer:
+		ID: ExprDisplayedSkinOfPlayer
+		Return type: Skin Texture
+		Changers:
+			set
+		Patterns:
+			[(default)] displayed skin of %player% [(for %-players%|excluding %-players%)]
+			%player%'s [(default)] displayed skin [(for %-players%|excluding %-players%)]
+	ExprElement:
+		ID: ExprElement
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			(page %-number%|last page) (of|in) %itemstack%
+			((elem|element) %-number%|last (elem|element)) (of|in) %objects%
+	ExprElementCount:
+		ID: ExprElementCount
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			(page count|amount of pages) (of|in) %itemstack%
+			((elem|element) count|amount of (elem|element)s) (of|in) %objects%
+	ExprElements:
+		ID: ExprElements
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			pages (of|in) %itemstack%
+			(elem|element)s (of|in) %objects%
+	ExprEnchBookWithEnch:
+		ID: ExprEnchBookWithEnch
+		Return type: Item / Material
+		Changers:
+			none
+		Patterns:
+			%itemstack% containing %enchantmenttypes%
+	ExprEnchantLevelInEnchBook:
+		ID: ExprEnchantLevelInEnchBook
+		Return type: integer
+		Changers:
+			add
+			set
+			remove
+		Patterns:
+			level of %enchantmenttype% within %itemstack%
+	ExprEnchantsInEnchBook:
+		ID: ExprEnchantsInEnchBook
+		Return type: Enchantment Type
+		Changers:
+			add
+			set
+			remove
+			delete
+		Patterns:
+			enchants within %itemstack%
+	ExprEntityOfPacket:
+		ID: ExprEntityOfPacket
+		Return type: Entity
+		Changers:
+			set
+		Patterns:
+			%world% pentity %number% [of %packet%]
+			%world% pentity array %number% [of %packet%]
+	ExprEnumOfPacket:
+		ID: ExprEnumOfPacket
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			(arbitrary|%-string%) penum %number% [of %packet%]
+	ExprEnumValues:
+		ID: ExprEnumValues
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			[all [of the]] hangingremovecauses
+			[all [of the]] playerloginresults
+			[all [of the]] notes
+			[all [of the]] instruments
+			[all [of the]] websocketstates
+			[all [of the]] dimensions
+			[all [of the]] worldtypes
+			[all [of the]] packettypes
+			[all [of the]] skulltypes
+	ExprForObjects:
+		ID: ExprForObjects
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			%objects% for %object% in %objects%
+	ExprFunctionCodeBlock:
+		ID: ExprFunctionCodeBlock
+		Return type: Code Block
+		Changers:
+			none
+		Patterns:
+			[codeblock of] function %string%
+	ExprGameRule:
+		ID: ExprGameRule
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			value of [game]rule %string% in %world%
+	ExprGeneratorOfCreator:
+		ID: ExprGeneratorOfCreator
+		Return type: Text
+		Changers:
+			unknown
+		Patterns:
+			[the] gen of %creator%
+			%creator%'[s] gen
+			[the] generator of %creator%
+			%creator%'[s] generator
+	ExprGeneratorSettingsOfCreator:
+		ID: ExprGeneratorSettingsOfCreator
+		Return type: Text
+		Changers:
+			unknown
+		Patterns:
+			[the] gen set of %creator%
+			%creator%'[s] gen set
+			[the] generator set of %creator%
+			%creator%'[s] generator set
+			[the] gen settings of %creator%
+			%creator%'[s] gen settings
+			[the] generator settings of %creator%
+			%creator%'[s] generator settings
+	ExprHTTPStatus:
+		ID: ExprHTTPStatus
+		Return type: Number
+		Changers:
+			set
+		Patterns:
+			[the] http status of %handshake%
+			%handshake%'[s] http status
+			[the] handshake http status of %handshake%
+			%handshake%'[s] handshake http status
+	ExprHTTPStatusMessage:
+		ID: ExprHTTPStatusMessage
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			[the] http status message of %handshake%
+			%handshake%'[s] http status message
+			[the] handshake http status message of %handshake%
+			%handshake%'[s] handshake http status message
+	ExprHandlerOfFunctionSocket:
+		ID: ExprHandlerOfFunctionSocket
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			handler [function] of function socket at port %number%
+	ExprHandshake:
+		ID: ExprHandshake
+		Return type: Handshake
+		Changers:
+			none
+		Patterns:
+			[the] [websocket] request [handshake]
+			[the] [websocket] response [handshake]
+			[a] new [websocket] handshake
+	ExprHangedEntity:
+		ID: ExprHangedEntity
+		Return type: Entity
+		Changers:
+			add
+			remove
+			remove all
+		Patterns:
+			hanged entity
+	ExprHeader:
+		ID: ExprHeader
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			[handshake] [http] header %string% of %handshake%
+	ExprHeaderFooter:
+		ID: ExprHeaderFooter
+		Return type: Text
+		Changers:
+			add
+			set
+			delete
+			reset
+		Patterns:
+			[the] tablist (header|footer)[s] [(for|of) (%-players%|group %-string%)]
+			[(%-players%|group %-string%)'[s]] tablist (header|footer)[s]
+	ExprHeaderNames:
+		ID: ExprHeaderNames
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[all [[of] the]] [handshake] [http] header names of %handshake%
+	ExprHeightOfHeaderFooter:
+		ID: ExprHeightOfHeaderFooter
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+		Patterns:
+			[the] height of [the] tablist (header|footer)[s] [(for|of) (%-players%|group %-string%)]
+			[the] height of [(%-players%|group %-string%)'[s]] tablist (header|footer)[s]
+	ExprHighestSolidBlock:
+		ID: ExprHighestSolidBlock
+		Return type: Block
+		Changers:
+			add
+			set
+			remove
+			remove all
+			delete
+		Patterns:
+			highest [(solid|non-air)] block at %location%
+	ExprIDOfCustomEvent:
+		ID: ExprIDOfCustomEvent
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			(id|ids) of custom event
+			custom event's (id|ids)
+	ExprIP:
+		ID: ExprIP
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			pinger's ip
+			ip of pinger
+	ExprIconOfArrayTab:
+		ID: ExprIconOfArrayTab
+		Return type: Skin Texture
+		Changers:
+			set
+			reset
+		Patterns:
+			[the] (head|icon|skull) of [the] [array] tab %number%, %number% [for (%-players%|group %-string%)]
+	ExprIconOfSimpleTab:
+		ID: ExprIconOfSimpleTab
+		Return type: Skin Texture
+		Changers:
+			set
+			reset
+		Patterns:
+			[the] (head|icon|skull) of [the] ([simple] tab [with] id|simple tab) %string% [for (%-players%|group %-string%)]
+	ExprIndexesOfListVariable:
+		ID: ExprIndexesOfListVariable
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[all [of]] [the] indexes (of|in) [value] %objects%
+	ExprJSONObjectOfPacket:
+		ID: ExprJSONObjectOfPacket
+		Return type: JSONObject
+		Changers:
+			set
+		Patterns:
+			(%-string%|chatcomponent|serverping|datawatcher|watchablecollection|gameprofile|nbt) pjson %number% [of %packet%]
+			(%-string%|chatcomponent|playerinfodata) array pjson %number% [of %packet%]
+	ExprLastToken:
+		ID: ExprLastToken
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			last token
+	ExprLatencyBarsOfArrayTab:
+		ID: ExprLatencyBarsOfArrayTab
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			[the] (latency|ping) [bars] of [the] [array] tab %number%, %number% [for (%-players%|group %-string%)]
+	ExprLatencyBarsOfPlayerTab:
+		ID: ExprLatencyBarsOfPlayerTab
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			[the] (latency|ping) [bars] of [the] [player] tab of %player% [for (%-players%|group %-string%)]
+			(latency|ping) [bars] of %player%'s [player] tab [for (%-players%|group %-string%)]
+			[the] tablist (latency|ping) [bars] of %player% [for (%-players%|group %-string%)]
+			%player%'s tablist (latency|ping) [bars] [for (%-players%|group %-string%)]
+	ExprLatencyBarsOfSimpleTab:
+		ID: ExprLatencyBarsOfSimpleTab
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			[the] (latency|ping) [bars] of [the] ([simple] tab [with] id|simple tab) %string% [for (%-players%|group %-string%)]
+	ExprLineNumberOfSTE:
+		ID: ExprLineNumberOfSTE
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[the] line number of %stacktraceelement%
+			%stacktraceelement%'[s] line number
+	ExprLineOfHeaderFooter:
+		ID: ExprLineOfHeaderFooter
+		Return type: Text
+		Changers:
+			add
+			set
+			delete
+			reset
+		Patterns:
+			(line %-number%|[the] last line) of [the] tablist (header|footer)[s] [(for|of) (%-players%|group %-string%)]
+			(line %-number%|[the] last line) of [(%-players%|group %-string%)'[s]] tablist (header|footer)[s]
+	ExprListVariableAsJson:
+		ID: ExprListVariableAsJson
+		Return type: JSONObject
+		Changers:
+			none
+		Patterns:
+			json (of|from) (listvar|list variable) %objects%
+			jsons (of|from) (listvar|list variable) %objects%
+	ExprLoadedScripts:
+		ID: ExprLoadedScripts
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			loaded script[ name]s
+	ExprLoginResult:
+		ID: ExprLoginResult
+		Return type: Player Login Result
+		Changers:
+			set
+		Patterns:
+			(login|connect[ion]) result
+	ExprLoopWhile:
+		ID: ExprLoopWhile
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			%objects% (while|until|if|unless) %boolean%
+	ExprMaterialInChunkData:
+		ID: ExprMaterialInChunkData
+		Return type: Item / Material
+		Changers:
+			set
+		Patterns:
+			material at %number%, %number%, %number% in %chunkdata%
+	ExprMotd:
+		ID: ExprMotd
+		Return type: Text
+		Changers:
+			set
+			reset
+		Patterns:
+			(shown|sent) motd
+	ExprMotdOfServer:
+		ID: ExprMotdOfServer
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			motd of server with host %string% [port %-number%]
+	ExprNameOfCreator:
+		ID: ExprNameOfCreator
+		Return type: Text
+		Changers:
+			unknown
+		Patterns:
+			[the] worldname of %creator%
+			%creator%'[s] worldname
+	ExprNameTagOfPlayer:
+		ID: ExprNameTagOfPlayer
+		Return type: Text
+		Changers:
+			set
+			reset
+		Patterns:
+			[mundo[sk]] %player%'s [(default)] name[]tag [for %-players%]
+			[mundo[sk]] [(default)] name[]tag of %player% [for %-players%]
+	ExprNewCreator:
+		ID: ExprNewCreator
+		Return type: World Creator
+		Changers:
+			none
+		Patterns:
+			[world] creator [(with name|named) %-string%][(,| with)] [(dim[ension]|env[ironment]) %-dimension%][,] [seed %-string%][,] [[world]type %-worldtype%][,] [gen[erator] %-string%][,] [gen[erator] settings %-string%][,] [struct[ures] %-boolean%]
+	ExprNewPacket:
+		ID: ExprNewPacket
+		Return type: Packet
+		Changers:
+			none
+		Patterns:
+			new %packettype% packet
+	ExprNewPortal:
+		ID: ExprNewPortal
+		Return type: Location
+		Changers:
+			none
+		Patterns:
+			new nether portal within [[a] radius of] %number% (block|meter)s of %location%
+	ExprNewRandom:
+		ID: ExprNewRandom
+		Return type: Random
+		Changers:
+			none
+		Patterns:
+			new random [from seed %number%]
+	ExprNewWebSocket:
+		ID: ExprNewWebSocket
+		Return type: WebSocket
+		Changers:
+			none
+		Patterns:
+			[[a] new] websocket %string% connected to uri %string% [with (handshake|http) headers %-handshake%]
+	ExprNoteOfBlock:
+		ID: ExprNoteOfBlock
+		Return type: note
+		Changers:
+			set
+		Patterns:
+			[the] note of %block%
+			%block%'[s] note
+	ExprNumber:
+		ID: ExprNumber
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			%*number%[ ](b|d|f|s|l)
+	ExprObjectOfPacket:
+		ID: ExprObjectOfPacket
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			(%-classinfo/string%|object|location|uuid|material|item|blockdata) pinfo %number% [of %packet%]
+			(%-classinfo/string%|collection|bytebuffer) array pinfo %number% [of %packet%]
+	ExprOwnerOfSkull:
+		ID: ExprOwnerOfSkull
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			owner of skull %itemstack/block%
+			skull %itemstack/block%'s owner
+	ExprPassOfFunctionSocket:
+		ID: ExprPassOfFunctionSocket
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			pass[word] of function socket at port %number%
+	ExprPlayerCountOfServer:
+		ID: ExprPlayerCountOfServer
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			(player count|max player count) of server with host %string% [port %-number%]
+	ExprPrimitiveArrayOfPacket:
+		ID: ExprPrimitiveArrayOfPacket
+		Return type: Number
+		Changers:
+			set
+		Patterns:
+			(int|byte) array pnum %number% [of %packet%]
+	ExprPrimitiveOfPacket:
+		ID: ExprPrimitiveOfPacket
+		Return type: Number
+		Changers:
+			set
+		Patterns:
+			(byte|short|int|long|float|double) pnum %number% [of %packet%]
+	ExprPriorityOfSimpleTab:
+		ID: ExprPriorityOfSimpleTab
+		Return type: Text
+		Changers:
+			set
+			reset
+		Patterns:
+			[the] priority of [the] ([simple] tab [with] id|simple tab) %string% [for (%-players%|group %-string%)]
+	ExprPropertyNameOfSTE:
+		ID: ExprPropertyNameOfSTE
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] class name of %stacktraceelement%
+			%stacktraceelement%'[s] class name
+			[the] file name of %stacktraceelement%
+			%stacktraceelement%'[s] file name
+			[the] method name of %stacktraceelement%
+			%stacktraceelement%'[s] method name
+	ExprPropertyOfBorder:
+		ID: ExprPropertyOfBorder
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			((diameter|side length|size)|damage amount|damage buffer|warning distance|warning time) of %world%
+			%world%'s ((diameter|side length|size)|damage amount|damage buffer|warning distance|warning time)
+	ExprRandomIndex:
+		ID: ExprRandomIndex
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			random from %numbers% prob[abilitie]s
+	ExprRandomNumberIndex:
+		ID: ExprRandomNumberIndex
+		Return type: integer
+		Changers:
+			none
+		Patterns:
+			random number from %numbers% prob[abilitie]s
+	ExprRandomValue:
+		ID: ExprRandomValue
+		Return type: Object
+		Changers:
+			none
+		Patterns:
+			random (int|long|float|double|gaussian|int less than %-number%|boolean) [from [random] %random%]
+	ExprRemainingAir:
+		ID: ExprRemainingAir
+		Return type: Timespan
+		Changers:
+			add
+			set
+			remove
+		Patterns:
+			[the] breath of %livingentity%
+			%livingentity%'[s] breath
+			[the] max breath of %livingentity%
+			%livingentity%'[s] max breath
+	ExprResourceDescriptor:
+		ID: ExprResourceDescriptor
+		Return type: Text
+		Changers:
+			set
+		Patterns:
+			[the] resource descriptor of %handshake%
+			%handshake%'[s] resource descriptor
+			[the] handshake resource descriptor of %handshake%
+			%handshake%'[s] handshake resource descriptor
+	ExprRespawnLocation:
+		ID: ExprRespawnLocation
+		Return type: Location
+		Changers:
+			set
+		Patterns:
+			respawn location
+	ExprRetrievedSkin:
+		ID: ExprRetrievedSkin
+		Return type: Skin Texture
+		Changers:
+			none
+		Patterns:
+			retrieved [(slim)] skin from (file|url) %string% [[with] timeout %-timespan%]
+			retrieved skin (of %-offlineplayer%|from uuid %-string%) [[with] timeout %-timespan%]
+	ExprReturnTypeOfFunction:
+		ID: ExprReturnTypeOfFunction
+		Return type: Type
+		Changers:
+			none
+		Patterns:
+			return type of function %string%
+	ExprScoreOfArrayTab:
+		ID: ExprScoreOfArrayTab
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			[the] score of [the] [array] tab %number%, %number% [for (%-players%|group %-string%)]
+	ExprScoreOfPlayerTab:
+		ID: ExprScoreOfPlayerTab
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			[the] score of [the] [player] tab of %player% [for (%-players%|group %-string%)]
+			[the] score of %player%'s [player] tab [for (%-players%|group %-string%)]
+			[the] tablist score of %player% [for (%-players%|group %-string%)]
+			%player%'s tablist score [for (%-players%|group %-string%)]
+	ExprScoreOfSimpleTab:
+		ID: ExprScoreOfSimpleTab
+		Return type: Number
+		Changers:
+			add
+			set
+			remove
+			reset
+		Patterns:
+			[the] score of [the] ([simple] tab [with] id|simple tab) %string% [for (%-players%|group %-string%)]
+	ExprSeedOfCreator:
+		ID: ExprSeedOfCreator
+		Return type: Text
+		Changers:
+			unknown
+		Patterns:
+			[the] seed of %creator%
+			%creator%'[s] seed
+	ExprServerIP:
+		ID: ExprServerIP
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[mundo[sk]] [the] ip of server
+			[mundo[sk]] [the] server's ip
+	ExprServerPort:
+		ID: ExprServerPort
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[mundo[sk]] [the] port of server
+			[mundo[sk]] [the] server's port
+	ExprSkinOf:
+		ID: ExprSkinOf
+		Return type: Skin Texture
+		Changers:
+			unknown
+		Patterns:
+			skin [texture] of %player/itemstack/block%
+			%player/itemstack/block%'s skin
+	ExprSkinWith:
+		ID: ExprSkinWith
+		Return type: Skin Texture
+		Changers:
+			none
+		Patterns:
+			skin [texture] (with|of) value %string% signature %string%
+	ExprSkullFromSkin:
+		ID: ExprSkullFromSkin
+		Return type: Item / Material
+		Changers:
+			none
+		Patterns:
+			skull from %skin% [with owner %-string%]
+	ExprSkullOfType:
+		ID: ExprSkullOfType
+		Return type: Item / Material
+		Changers:
+			none
+		Patterns:
+			%skulltype% skull
+			a %skulltype% skull
+	ExprSomeElements:
+		ID: ExprSomeElements
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			pages %number% to (%-number%|last) (of|in) %itemstack%
+			(elem|element)s %number% to (%-number%|last) (of|in) %objects%
+	ExprStackTrace:
+		ID: ExprStackTrace
+		Return type: Stack Trace Element
+		Changers:
+			none
+		Patterns:
+			stack trace of %throwable%
+			%throwable%'s stack trace
+	ExprStringAsJson:
+		ID: ExprStringAsJson
+		Return type: JSONObject
+		Changers:
+			none
+		Patterns:
+			json of string %string%
+	ExprStructuresOfCreator:
+		ID: ExprStructuresOfCreator
+		Return type: Boolean
+		Changers:
+			unknown
+		Patterns:
+			[the] struct of %creator%
+			%creator%'[s] struct
+			[the] structures of %creator%
+			%creator%'[s] structures
+			[the] structure settings of %creator%
+			%creator%'[s] structure settings
+	ExprTabName:
+		ID: ExprTabName
+		Return type: Text
+		Changers:
+			unknown
+		Patterns:
+			%player%'s [mundo[sk]] tab[list] name
+			[mundo[sk]] tab[list] name of %player%
+	ExprTablistGroup:
+		ID: ExprTablistGroup
+		Return type: Player
+		Changers:
+			add
+			remove
+			remove all
+		Patterns:
+			[the] members of tablist group %string%
+			tablist group %string%'s members
+	ExprThatAre:
+		ID: ExprThatAre
+		Return type: Object
+		Changers:
+			unknown
+		Patterns:
+			%objects% that are[(n't| not)] %object%
+	ExprTimeRemainingUntilBorderStabilize:
+		ID: ExprTimeRemainingUntilBorderStabilize
+		Return type: Timespan
+		Changers:
+			none
+		Patterns:
+			(time remaining|remaining time) until [the] border stabilize[s] (of|in) %world%
+			%world%'s (time remaining|remaining time) until [the] border stabilize[s]
+	ExprTitleOfBook:
+		ID: ExprTitleOfBook
+		Return type: Text
+		Changers:
+			add
+			set
+		Patterns:
+			[the] title of %itemstacks%
+			%itemstacks%'[s] title
+	ExprTreeAtLoc:
+		ID: ExprTreeAtLoc
+		Return type: Block
+		Changers:
+			add
+			set
+			remove
+			remove all
+			delete
+		Patterns:
+			tree at %location%
+	ExprTreeOfListVariable:
+		ID: ExprTreeOfListVariable
+		Return type: Object
+		Changers:
+			none
+		Patterns:
+			tree of %objects%
+	ExprTypeOfCreator:
+		ID: ExprTypeOfCreator
+		Return type: WorldType
+		Changers:
+			unknown
+		Patterns:
+			[the] worldtype of %creator%
+			%creator%'[s] worldtype
+	ExprTypeOfPacket:
+		ID: ExprTypeOfPacket
+		Return type: PacketType
+		Changers:
+			none
+		Patterns:
+			[the] packettype of %packet%
+			%packet%'[s] packettype
+	ExprTypeOfSkull:
+		ID: ExprTypeOfSkull
+		Return type: Skull Type
+		Changers:
+			set
+		Patterns:
+			[the] skulltype of %itemstack/block%
+			%itemstack/block%'[s] skulltype
+			[the] skull type of %itemstack/block%
+			%itemstack/block%'[s] skull type
+	ExprWebSocketHost:
+		ID: ExprWebSocketHost
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] local host of %websocket%
+			%websocket%'[s] local host
+			[the] remote host of %websocket%
+			%websocket%'[s] remote host
+			[the] external host of %websocket%
+			%websocket%'[s] external host
+	ExprWebSocketID:
+		ID: ExprWebSocketID
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] websocket id of %websocket%
+			%websocket%'[s] websocket id
+	ExprWebSocketPort:
+		ID: ExprWebSocketPort
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[the] local port of %websocket%
+			%websocket%'[s] local port
+			[the] remote port of %websocket%
+			%websocket%'[s] remote port
+			[the] external port of %websocket%
+			%websocket%'[s] external port
+	ExprWebSocketServerID:
+		ID: ExprWebSocketServerID
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			[the] id of [the] websocket server at port %number%
+	ExprWebSocketServerPort:
+		ID: ExprWebSocketServerPort
+		Return type: Number
+		Changers:
+			none
+		Patterns:
+			[the] websocket [server] port
+	ExprWebSocketState:
+		ID: ExprWebSocketState
+		Return type: WebSocket State
+		Changers:
+			none
+		Patterns:
+			[the] websocket state of %websocket%
+			%websocket%'[s] websocket state
+	ExprWorldByName:
+		ID: ExprWorldByName
+		Return type: World
+		Changers:
+			none
+		Patterns:
+			world %string%
+Types:
+	Biome Grid:
+		ID: BiomeGrid
+		Patterns:
+			biomegrid
+	Chunk Data:
+		ID: ChunkData
+		Patterns:
+			chunkdata
+	Code Block:
+		ID: CodeBlock
+		Patterns:
+			codeblock
+	Dimension:
+		ID: Dimension
+		Patterns:
+			dimension
+	Handshake:
+		ID: Handshakedata
+		Patterns:
+			handshake
+	HangingRemoveCause:
+		ID: RemoveCause
+		Patterns:
+			hangingremovecause
+	Instrument:
+		ID: Instrument
+		Patterns:
+			instrument
+	JSONObject:
+		ID: JSONObject
+		Patterns:
+			jsonobject
+	Packet:
+		ID: PacketContainer
+		Patterns:
+			packet
+	PacketType:
+		ID: PacketType
+		Patterns:
+			packettype
+	Player Login Result:
+		ID: Result
+		Patterns:
+			playerloginresult
+	Random:
+		ID: Random
+		Patterns:
+			random
+	Skin Texture:
+		ID: Skin
+		Patterns:
+			skin
+			skintexture
+	Skull Type:
+		ID: SkullType
+		Patterns:
+			skulltype
+	Stack Trace Element:
+		ID: StackTraceElement
+		Patterns:
+			stacktraceelement
+	Throwable:
+		ID: Throwable
+		Patterns:
+			throwable
+	WebSocket:
+		ID: WebSocket
+		Patterns:
+			websocket
+	WebSocket State:
+		ID: READYSTATE
+		Patterns:
+			websocketstate
+	World Creator:
+		ID: WorldCreatorData
+		Patterns:
+			creator
+	WorldType:
+		ID: WorldType
+		Patterns:
+			worldtype

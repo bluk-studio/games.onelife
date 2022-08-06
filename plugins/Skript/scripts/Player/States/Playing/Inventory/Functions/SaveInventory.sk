@@ -1,0 +1,23 @@
+function Player_PlayingState_Inventory_saveInventory(player: player):
+  # Getting this character id
+  set {_characterId} to {player::%{_player}%::currentCharacter}
+
+  # Looping player items
+  loop numbers between 0 and 35:
+    set {_slot} to loop-value
+
+    set {_item} to slot {_slot} of {_player}'s inventory
+    if {_item} isn't air:
+      set {_itemId} to Helper_getItemId({_item})
+
+      if {items::*} contain {_itemId}:
+        # Saving
+        add {_item} to {_items::*}
+      else:
+        add air to {_items::*}
+    else:
+      add air to {_items::*}
+
+  set {character::%{_player}%::%{_characterId}%::items::*} to {_items::*}
+
+  # Saving armor

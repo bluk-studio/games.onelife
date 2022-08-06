@@ -1,0 +1,19 @@
+import:
+  net.citizensnpcs.api.CitizensAPI
+
+# Function, to despawn all citizens
+# starting with gen_
+function NPC_DeleteGenerated():
+  set {_registry} to CitizensAPI.getNPCRegistry()
+  set {_npcs} to {_registry}.sorted()
+  
+  if {_npcs}.size() > 0:
+    # Preparing data
+    loop numbers from 0 to {_npcs}.size() - 1:
+      set {_npc} to {_npcs}.get(loop-value)
+      if {_npc}.getName() starts with "gen":
+        {_npc}.despawn()
+        {_npc}.destroy()
+
+on script load:
+  NPC_DeleteGenerated()

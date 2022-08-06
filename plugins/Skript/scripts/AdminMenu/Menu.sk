@@ -1,0 +1,7 @@
+command admin:
+  trigger:
+    if player is not op:
+      stop
+
+    # Opening admin menu for this player
+    open chest inventory with 1 row named "test" to player

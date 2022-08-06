@@ -1,0 +1,6 @@
+function Entities_deleteGarbageEntities():
+  loop {garbage::entities::*}:
+    kill loop-value
+
+on script load:
+  Entities_deleteGarbageEntities()

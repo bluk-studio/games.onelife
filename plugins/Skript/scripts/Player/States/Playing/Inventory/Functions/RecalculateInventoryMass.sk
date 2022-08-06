@@ -1,0 +1,31 @@
+function Player_PlayingState_Inventory_calculateMass(player: player):
+  # Getting all items in player's inventory
+  set {_mass} to 0
+  set {_items::*} to all items in {_player}'s inventory
+
+  loop {_items::*}:
+    # Getting item id
+    set {_itemId} to Helper_getItemId(loop-value)
+
+    if {items::*} contains {_itemId}:
+      if {_processedItems::*} doesn't contain {_itemId}:
+        # Calculating item mass
+        set {_item::mass} to {item::%{_itemId}%::mass}
+        add amount of loop-value in {_player}'s inventory * {_item::mass} to {_mass}
+
+        add {_itemId} to {_processedItems::*}
+
+  set {player::%{_player}%::mass} to {_mass}
+
+  # Checking if we need to notify player about
+  # mass change
+  if {player::%{_player}%::previousMass} is not set:
+    set {player::%{_player}%::previousMass} to {_mass}
+    stop
+
+  if {_mass} is 0:
+    stop
+
+  if {player::%{_player}%::previousMass} isn't {_mass}:
+    set {player::%{_player}%::previousMass} to {_mass}
+    Player_PlayingState_Inventory_notifyAboutMassChange({_player})

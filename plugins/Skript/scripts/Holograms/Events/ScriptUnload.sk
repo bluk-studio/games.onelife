@@ -1,0 +1,6 @@
+function Holograms_deleteGarbageHolograms():
+  loop {garbage::holograms::*}:
+    delete hologram loop-value
+
+on script load:
+  Holograms_deleteGarbageHolograms()

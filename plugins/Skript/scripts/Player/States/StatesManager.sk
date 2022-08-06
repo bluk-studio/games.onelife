@@ -1,0 +1,80 @@
+function Player_startStateManager(player: player):
+  delete {%{_player}%::*}
+
+  # Starting state manager
+  while true is true:
+    if {_player} is offline:
+      delete {%{_player}%::*}
+      stop
+
+    if {%{_player}%::stopStateWorker} is true:
+      delete {%{_player}%::*}
+      stop
+
+    # Getting current player state
+    set {_state} to {%{_player}%::state}
+
+    if Player_getAvailableStates() doesn't contain {_state}:
+      set {_state} to "choosing_character"
+      # if {%{_player}%::isRegistered} is true:
+      #   set {_state} to "login"
+      # else:
+      #   set {_state} to "register"
+
+    # 
+    # Previous state system
+    if {_state} isn't {_previousState}:
+      set {_nextState} to {_state}
+      set {_state} to {_previousState}
+
+      set {%{_player}%::state} to {_nextState}
+    else:
+      if {%{_player}%::nextState} is set:
+        set {_nextState} to {%{_player}%::nextState}
+        delete {%{_player}%::nextState}
+
+        set {%{_player}%::state} to {_nextState}
+
+    # Global ticks
+    Player_BossbarTick({_player})
+
+    # 
+    # Login/Register
+    if {_state} is "login":
+      # Player_InLobbyState_tick({_player})
+    else if {_state} is "register":
+      # Player_PlayingState_tick({_player})
+    
+    # 
+    # Game-related
+    else if {_state} is "choosing_character":
+      Player_ChoosingCharacterState_tick({_player})
+
+    else if {_state} is "playing":
+      Player_PlayingState_tick({_player})
+
+    # Updating states
+    if {_nextState} is set:
+      set {_state} to {_nextState}
+      set {_previousState} to {_state}
+
+    # Updating state
+    set {%{_player}%::state} to {_state}
+    set {%{_player}%::previousState} to {_previousState}
+
+    wait 1 tick
+
+function Player_getAvailableStates() :: strings:
+  return "login", "register", "choosing_character", "playing", "none"
+
+command state [<string>]:
+  trigger:
+    set {%player%::nextState} to arg-1
+
+command reloadState:
+  trigger:
+    set {%player%::nextState} to "none"
+    wait 2 ticks
+    set {%player%::stopStateWorker} to true
+    wait 2 ticks
+    Player_startStateManager(player)

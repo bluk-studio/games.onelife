@@ -1,0 +1,9 @@
+on join:
+  set join message to ""
+
+  # Starting StatesManager
+  Player_startStateManager(player)
+
+on quit:
+  set quit message to ""
+  delete {player::*}

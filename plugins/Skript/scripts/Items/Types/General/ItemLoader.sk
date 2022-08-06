@@ -1,0 +1,35 @@
+function Items_General_loadItem(path: string, file: string) :: boolean:
+  # Loading item
+  broadcast "[Items] Loading item: %{_path}% from %{_file}%"
+
+  set {_id} to {_path}
+  if {items::*} contain {_id}:
+    broadcast "&c[Items] &fDuplicate item found %{_path}% from %{_file}%"
+    return false
+  
+  # Getting visual item information
+  set {_item::id} to yaml value "%{_path}%.item.id" from {_file}
+  set {_item::id} to "%{_item::id}%" parsed as item
+  
+  set {_item::name} to yaml value "%{_path}%.item.name" from {_file}
+  set {_item::lore::*} to yaml list "%{_path}%.item.lore" from {_file}
+
+  if {_item::id} or {_item::name} or {_item::lore::*} is not set:
+    broadcast "&c[Items] &fInvalid item name or lore or item id"
+    return false
+
+  set {_item::mass} to yaml value "%{_path}%.mass" from {_file}
+  set {_item::mass} to "%{_item::mass}%" parsed as number ? 100
+
+  # Saving all data
+  set {item::%{_id}%::item} to {_item::id} named {_item::name} with lore {_item::lore::*}
+  
+  set {item::%{_id}%::visual::id} to {_item::id}
+  set {item::%{_id}%::visual::name} to {_item::name}
+  set {item::%{_id}%::visual::lore::*} to {_item::lore::*}
+
+  set {item::%{_id}%::mass} to {_item::mass}
+
+  add {_id} to {items::*}
+
+  return true

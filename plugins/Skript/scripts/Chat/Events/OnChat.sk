@@ -1,0 +1,4 @@
+on chat:
+  if {%player%::ChoosingCharacterState::isEditingField} is true:
+    set {%player%::ChoosingCharacterState::chatResponse} to message
+    stop

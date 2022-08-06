@@ -1,0 +1,88 @@
+function Player_ChoosingCharacterState_promptPlayer(player: player, type: string):
+  if {_type} is "name":
+    set {_visual::title} to "Имя и фамилия"
+    set {_visual::subtitle} to "<Имя> <Фамилия>"
+  else if {_type} is "age":
+    set {_visual::title} to "Возраст"
+    set {_visual::subtitle} to "<Возраст>"
+  else if {_type} is "gender":
+    set {_visual::title} to "Пол"
+    set {_visual::subtitle} to "<Мужской|Женский>"
+
+  # Starting worker
+  while true is true:
+    if {_player} is offline:
+      stop
+
+    if {%{_player}%::state} isn't "choosing_character":
+      stop
+
+    # Keeping variables in sync
+    if {%{_player}%::ChoosingCharacterState::isEditingField} is not true:
+      set {%{_player}%::ChoosingCharacterState::isEditingField} to true
+
+    # Giving player some effects
+    if {_potionTimer} <= 1:
+      set {_potionTimer} to 5
+      apply potion of blindness of tier 100 without particles to {_player} for 5 seconds
+
+    # Sending title
+    send title "%{_visual::title}%" with subtitle "%{_visual::subtitle}%" to {_player} for 0.5 seconds with fade in 0 ticks and fade out 0 ticks
+
+    # Waiting for user response
+    if {%{_player}%::ChoosingCharacterState::chatResponse} is set:
+      # Cleaning
+      delete {_temp::*}
+
+      set {_response} to {%{_player}%::ChoosingCharacterState::chatResponse}
+      delete {%{_player}%::ChoosingCharacterState::chatResponse}
+
+      set {_currentCharacter} to {%{_player}%::ChoosingCharacterState::currentCharacter}
+      
+      # Type-related
+      
+      # 
+      # Name
+      if {_type} is "name":
+        set {_temp::*} to {_response} split at " "
+        if size of {_temp::*} is not 2:
+          broadcast "error"
+
+        else:
+          set {_stop} to true
+
+          # Updating
+          set {character::%{_player}%::%{_currentCharacter}%::name} to {_temp::1}
+          set {character::%{_player}%::%{_currentCharacter}%::surname} to {_temp::2}
+      
+      # 
+      # Age
+      else if {_type} is "age":
+        set {_temp::age} to {_response} parsed as number
+        if {_temp::age} is not set:
+          broadcast "error"
+        else:
+          set {_stop} to true
+
+          set {character::%{_player}%::%{_currentCharacter}%::age} to {_temp::age}
+
+      # 
+      # Gender
+      else if {_type} is "gender":
+        if {_response} contains "муж":
+          set {_stop} to true
+          set {character::%{_player}%::%{_currentCharacter}%::gender} to "male"
+        else if {_response} contains "жен":
+          set {_stop} to true
+          set {character::%{_player}%::%{_currentCharacter}%::gender} to "female"
+        else:
+          broadcast "error"
+
+      if {_stop} is true:
+        delete {%{_player}%::ChoosingCharacterState::isEditingField}
+        apply potion of blindness of tier 100 without particles to {_player} for 0.1 seconds replacing the existing effect
+        stop
+
+    reduce {_potionTimer} by 0.05
+
+    wait 1 tick

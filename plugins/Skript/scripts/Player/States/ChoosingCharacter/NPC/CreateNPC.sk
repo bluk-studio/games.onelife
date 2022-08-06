@@ -1,0 +1,45 @@
+import:
+  net.citizensnpcs.api.CitizensAPI
+
+function Player_ChoosingCharacterState_CreateNPC(player: player):
+  # Getting npc's location
+  set {_location} to location at -1604, 82, 993.5 in world "world"
+  set {_location}'s yaw to -90
+
+  # Getting character skin
+
+  # Creating npc
+  set {_npcId} to NPC_Create({_location})
+  set {_npc} to CitizensAPI.getNPCRegistry().getById({_npcId})
+
+  set {_entity} to {_npc}.getEntity()
+
+  # Setting npc skin
+
+  # Starting npc worker
+  while true is true:
+    # Checking player's status
+    if {_player} is offline:
+      set {_action} to "stop"
+
+    if {%{_player}%::state} isn't "choosing_character":
+      set {_action} to "stop"
+
+    # Updating npc skin
+    
+
+    # Stop action
+    if {_action} is "stop":
+      {_npc}.despawn()
+      {_npc}.destroy()
+
+      stop
+
+    # Hiding this npc from all players
+    set {_players::*} to all players
+    remove {_player} from {_players::*}
+
+    hide {_entity} from {_players::*}
+    reveal {_entity} to {_player}
+
+    wait 1 tick

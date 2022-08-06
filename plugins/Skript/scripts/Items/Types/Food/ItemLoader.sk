@@ -1,0 +1,17 @@
+function Items_Food_loadItem(path: string, file: string):
+  # Generating item id
+  set {_id} to {_path}
+
+  # Getting attributes
+  set {_isIngredient} to yaml value "%{_path}%.isIngredient" from {_file}
+  set {_isDish} to yaml value "%{_path}%.isDish" from {_file}
+
+  if {_isIngredient} and {_isDish} is true:
+    broadcast "&c[Items] &fItem %{_path}% &7(from %{_file}%) &fcan not be an ingredient and a dish simultaneously"
+    stop
+
+  # Ingredient
+  if {_isIngredient} is true:
+    # Parsing ingredient-specific attributes
+    if yaml value "%{_path}%.attributes.slicable.to" from {_file} is set:
+      Items_Food_parseSlicedAction({_path}, {_file})

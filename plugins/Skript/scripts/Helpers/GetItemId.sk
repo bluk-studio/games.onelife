@@ -1,0 +1,5 @@
+function Helper_getItemId(item: item) :: string:
+  set {_itemId} to tag "ItemId" of item-nbt of {_item}
+  replace all """" in {_itemId} with ""
+
+  return {_itemId}

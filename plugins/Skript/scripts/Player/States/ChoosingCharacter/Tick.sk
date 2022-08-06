@@ -1,0 +1,78 @@
+function Player_ChoosingCharacterState_tick(player: player):
+  # First tick
+  set {_location} to location at -1597, 82, 993.5 in world "world"
+  set {_location}'s yaw to 90
+  
+  if {%{_player}%::ChoosingCharacterState::ticked} is not true:
+    set {%{_player}%::ChoosingCharacterState::ticked} to true
+
+    # Resetting player
+    Helper_resetPlayer({_player})
+
+    # Teleporting player to lobby location
+    teleport {_player} to {_location}
+
+    # Creating new npc
+    Player_ChoosingCharacterState_CreateNPC({_player})
+
+    # Default state
+    Player_ChoosingCharacterState_updateState({_player}, "choosing")
+  
+  # Cleaner
+  if {%{_player}%::state} isn't "choosing_character":
+    set {player::%{_player}%::currentCharacter} to {%{_player}%::ChoosingCharacterState::currentCharacter}
+
+    delete {%{_player}%::ChoosingCharacterState::*}
+    delete {bossbar::%{_player}%::*}
+    stop
+
+  # ----------------
+  #      Tick
+  # ----------------
+
+  # Gamemode
+  if {%{_player}%::ChoosingCharacterState::isEditingField} is true:
+    if {_player}'s gamemode isn't spectator:
+      set {_player}'s gamemode to spectator
+  else:
+    if {_player}'s gamemode isn't creative:
+      set {_player}'s gamemode to creative
+
+  # Hiding players and our player
+  hide all players from {_player}
+  hide {_player} from all players
+
+  # Giving player some effects to stop him from moving
+  apply potion of slowness of tier 100 without particles to {_player} for 0.5 seconds replacing the existing effect
+  apply potion of jump boost of tier -100 without particles to {_player} for 0.5 seconds replacing the existing effect
+
+  # Checking location
+  if distance between {_player}'s location and {_location} > 0.1:
+    teleport {_player} to {_location}
+
+  # Sub-state-related
+  set {_isHovering} to true if {%{_player}%::ChoosingCharacterState::isHovering} is true else false
+  if {%{_player}%::ChoosingCharacterState::state} is "choosing":
+    # Checking current player action (hovered, not_hovered)
+    Player_ChoosingCharacterState_ChoosingCharacterInventory_update({_player}, {_isHovering})
+  else:
+    # ... (hovered, not_hovered)
+    Player_ChoosingCharacterState_EditingCharacterInventory_update({_player}, {_isHovering})
+
+function Player_ChoosingCharacterState_updateState(player: player, state: string):
+  if {_state} is "choosing":
+    set {%{_player}%::ChoosingCharacterState::state} to "choosing"
+    if {%{_player}%::ChoosingCharacterState::currentCharacter} is not set:
+      set {%{_player}%::ChoosingCharacterState::currentCharacter} to 1
+
+    # Default buttons for this state
+    Player_ChoosingCharacterState_NextCharacterButton_createButton({_player})
+    Player_ChoosingCharacterState_PreviousCharacterButton_createButton({_player})
+  else if {_state} is "editing":
+    set {%{_player}%::ChoosingCharacterState::state} to "editing"
+
+    # Default buttons for this state
+    Player_ChoosingCharacterState_CharacterAgeButton_createButton({_player})
+    Player_ChoosingCharacterState_CharacterNameButton_createButton({_player})
+    Player_ChoosingCharacterState_CharacterGenderButton_createButton({_player})
+    Player_ChoosingCharacterState_OtherCategoriesButton_createButton({_player})

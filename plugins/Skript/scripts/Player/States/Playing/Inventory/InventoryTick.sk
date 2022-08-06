@@ -1,0 +1,7 @@
+function Player_PlayingState_Inventory_tick(player: player):
+  # 
+  # Checking player mass
+  set {_mass} to {player::%{_player}%::mass}
+  set {_character} to {player::%{_player}%::currentCharacter}
+  set {_mass::maximum} to Player_Characteristics_getMaximumMass({_player}, {_character})
+  

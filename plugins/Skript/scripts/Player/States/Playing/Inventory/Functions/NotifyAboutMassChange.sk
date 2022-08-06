@@ -1,0 +1,29 @@
+function Player_PlayingState_Inventory_notifyAboutMassChange(player: player):
+  # Getting mass information
+  set {_mass} to {player::%{_player}%::mass}
+
+  set {_character} to {player::%{_player}%::currentCharacter}
+  set {_mass::maximum} to Player_Characteristics_getMaximumMass({_player}, {_character})
+
+  # Showing bossbar to player
+  set {bossbar::%{_player}%::isShown} to true
+  set {bossbar::%{_player}%::progress} to (100 / {_mass::maximum}) * {_mass}
+  set {bossbar::%{_player}%::message} to "%Helper_parseMass({_mass})% &7(из %Helper_parseMass({_mass::maximum})%)"
+
+  # Starting small worker
+  set {_timer} to 2.5
+  while true is true:
+    if {_player} is offline:
+      stop
+
+    if {player::%{_player}%::mass} isn't {_mass}:
+      stop
+
+    reduce {_timer} by 0.05
+    if {_timer} <= 0:
+      # Hiding bossbar
+      delete {bossbar::%{_player}%::*}
+
+      stop
+
+    wait 1 tick

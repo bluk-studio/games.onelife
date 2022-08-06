@@ -1,0 +1,16 @@
+function Player_PlayingState_Inventory_loadInventory(player: player):
+  clear {_player}'s inventory
+
+  # Getting this character id
+  set {_characterId} to {player::%{_player}%::currentCharacter}
+
+  # Loading items
+  set {_items::*} to {character::%{_player}%::%{_characterId}%::items::*}
+  
+  set {_slot} to 0
+  loop {_items::*}:
+    set slot {_slot} of {_player}'s inventory to loop-value    
+
+    add 1 to {_slot}
+
+  # Loading armor

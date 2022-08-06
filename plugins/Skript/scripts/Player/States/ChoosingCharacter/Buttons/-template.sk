@@ -1,0 +1,71 @@
+options:
+  hologram_location: -1603.5, 84.45, 995.4
+  stand_location: -1603.5, 83.5, 995.5
+
+function Player_ChoosingCharacterState_<ButtonName>Button_createButton(player: player):
+  # Button location
+  set {_location::hologram} to location at {@hologram_location} in world "world"
+
+  # Creating hologram
+  create hologram with lines "&lИмя персонажа", "&9&lДинго Диего" at {_location::hologram} and store it in {_hologram}
+  add {_hologram} to {garbage::holograms::*}
+
+  set {%{_player}%::ChoosingCharacterState::<ButtonName>Button::hologram} to {_hologram}
+
+  # Hologram settings
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Creating interactable armor stand
+  set {_location::stand} to location at {@stand_location} in world "world"
+
+  spawn 1 armor stand at {_location::stand}
+  set {_stand} to last spawned armor stand
+  add {_stand} to {garbage::entities::*}
+
+  # Armor stand nbt
+  add "{NoGravity:1,Invisible:1}" to entity-nbt of {_stand}
+
+  # Starting worker
+  while true is true:
+    if {_player} is offline:
+      set {_action} to "stop"
+
+    if {%{_player}%::state} isn't "choosing_character":
+      set {_action} to "stop"
+
+    # Stop action
+    if {_action} is "stop":
+      # Deleting hologram
+      delete hologram {_hologram}
+      kill {_stand}
+      stop
+
+    # Checking if player is looking at this hologram or no
+    if {_player}'s target is {_stand}:
+      set {_state} to "hovered"
+    else:
+      set {_state} to "not_hovered"
+
+    # Updating state
+    Player_ChoosingCharacterState_<ButtonName>Button_updateState({_player}, {_state})
+    set {%{_player}%::ChoosingCharacterState::isHovering} to true if {_state} is "hovered" else false
+
+    wait 1 tick
+
+function Player_ChoosingCharacterState_<ButtonName>Button_updateState(player: player, state: string):
+  # Getting hologram
+  set {_hologram} to {%{_player}%::ChoosingCharacterState::<ButtonName>Button::hologram}
+
+  if {_state} is "hovered":
+    if size of all lines of hologram {_hologram} < 3:
+      # Updating hologram
+      set line 3 of hologram {_hologram} to "&a&l/ &f&lРедактировать"
+  
+  else if {_state} is "not_hovered":
+    # Checking last line of hologram
+    if size of all lines of hologram {_hologram} >= 3:
+      delete line 3 of hologram {_hologram}
+
+  else if {_state} is "pressed":
+    # Opening editing menu

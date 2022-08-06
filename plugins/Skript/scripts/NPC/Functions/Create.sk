@@ -1,0 +1,16 @@
+import:
+  org.bukkit.entity.EntityType
+  net.citizensnpcs.api.CitizensAPI
+  net.citizensnpcs.api.npc.NPC$Metadata
+
+function NPC_Create(location: location) :: number:
+  set {_registry} to CitizensAPI.getNPCRegistry()
+  
+  # Creating npc
+  set {_npc} to {_registry}.createNPC(EntityType.PLAYER, "gen_%random integer between 0000 and 9999%", {_location})
+
+  # Default npc settings
+  {_npc}.data().setPersistent(Metadata.NAMEPLATE_VISIBLE, false)
+
+  # Returning npc id
+  return {_npc}.getId()

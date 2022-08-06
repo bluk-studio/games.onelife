@@ -1,0 +1,11 @@
+function Character_canPlay(player: player, characterId: number) :: boolean:
+  # Getting character name, surname, age and gender
+  set {_name} to {character::%{_player}%::%{_characterId}%::name}
+  set {_surname} to {character::%{_player}%::%{_characterId}%::surname}
+  set {_age} to {character::%{_player}%::%{_characterId}%::age}
+  set {_gender} to {character::%{_player}%::%{_characterId}%::gender}
+
+  if {_name} or {_surname} or {_age} or {_gender} is not set:
+    return false
+  else:
+    return true

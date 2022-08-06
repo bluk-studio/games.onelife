@@ -14,10 +14,10 @@ config-version: 13
 settings:
   load-permissions-yml-before-plugins: true
   bungee-online-mode: true
-  incoming-packet-spam-threshold: 300
-  save-empty-scoreboard-teams: false
-  region-file-cache-size: 256
   sleep-between-chunk-saves: false
+  region-file-cache-size: 256
+  save-empty-scoreboard-teams: false
+  incoming-packet-spam-threshold: 300
   remove-invalid-statistics: false
   save-player-data: true
   use-alternative-luck-formula: false
@@ -137,8 +137,8 @@ world-settings:
     grass-spread-tick-rate: 1
     use-alternate-fallingblock-onGround-detection: false
     bed-search-radius: 1
-    non-player-arrow-despawn-rate: -1
     prevent-tnt-from-moving-in-water: false
+    non-player-arrow-despawn-rate: -1
     armor-stands-tick: true
     keep-spawn-loaded: true
     anti-xray:

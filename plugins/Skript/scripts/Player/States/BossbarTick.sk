@@ -1,0 +1,36 @@
+function Player_BossbarTick(player: player):
+  if {bossbar::%{_player}%::created} is not true:
+    set {bossbar::%{_player}%::created} to true
+
+    # Creating bossbar
+    create bossbar titled "..." and id "bossbar.%{_player}%" for {_player}
+    set bossbar "bossbar.%{_player}%" color to white 
+
+    hide bossbar "bossbar.%{_player}%"
+  
+  # Getting bossbar settings
+  set {_show} to {bossbar::%{_player}%::isShown}
+  {_show} is not set:
+    set {_show} to false
+
+  set {_progress} to {bossbar::%{_player}%::progress}
+  {_progress} is not a number:
+    set {_progress} to 100
+  
+  set {_message} to {bossbar::%{_player}%::message}
+  {_message} is not set:
+    set {_message} to "..."
+
+  # Manipulating bossbar
+  if {_show} is true:
+    show bossbar "bossbar.%{_player}%"
+  else:
+    hide bossbar "bossbar.%{_player}%"
+
+  set bossbar "bossbar.%{_player}%" title to {_message}
+  set bossbar "bossbar.%{_player}%" value to {_progress}
+
+# cleaner
+on quit:
+  delete {bossbar::%player%::*}
+  remove bossbar "bossbar.%player%"

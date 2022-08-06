@@ -1,0 +1,64 @@
+on right click:
+  # Checking state
+  if {%player%::state} isn't "choosing_character":
+    stop
+
+  if {%player%::ChoosingCharacterState::isEditingField} is true:
+    delete {%player%::ChoosingCharacterState::isEditingField}
+    stop
+
+  set {_name} to name of player's held item
+  set {_currentCharacter} to {%player%::ChoosingCharacterState::currentCharacter}
+  
+  # Play as character
+  if {_name} contains "Играть за":
+    if Character_canPlay(player, {_currentCharacter}) is true:
+      set {%player%::nextState} to "playing"
+    else:
+      # Send error message
+
+  # Edit character
+  else if {_name} contains "Редактировать персонажа":
+    Player_ChoosingCharacterState_updateState(player, "editing")
+
+  # Update field
+  else if {_name} contains "Редактировать" or "Переключить":
+    if {%player%::ChoosingCharacterState::isHovering} is true:
+      set {%player%::ChoosingCharacterState::pressed} to true
+
+  else if {_name} contains "Назад к списку":
+    Player_ChoosingCharacterState_updateState(player, "choosing")
+
+  # Sub-state related
+  # if {%player%::ChoosingCharacterState::state} is "choosing":
+  #   if {%player%::ChoosingCharacterState::isHovering} is true:
+  #     # Updating button state
+  #     set {%player%::ChoosingCharacterState::pressed} to true
+  #   else:
+  #     # Updating player state
+  #     if Character_canPlay(player, {_currentCharacter}) is true:
+  #       set {%player%::nextState} to "playing"
+  # else:
+  #   # Checking if player is hovering
+  #   if {%player%::ChoosingCharacterState::isHovering} is true:
+  #     # Updating button state
+  #     set {%player%::ChoosingCharacterState::pressed} to true
+  #   else:
+  #     # Updating state
+  #     if Character_canPlay(player, {_currentCharacter}) is true:
+  #       set {%player%::nextState} to "playing"
+
+# on left click:
+#   # Checking player state
+#   if {%player%::state} isn't "choosing_character":
+#     stop
+
+#   # Checking if player is hovering over some button
+#   if {%player%::ChoosingCharacterState::isHovering} is true:
+#     stop
+
+#   # Updating sub-state
+#   if {%player%::ChoosingCharacterState::state} is "choosing":
+#     Player_ChoosingCharacterState_updateState(player, "editing")
+#   else:
+#     Player_ChoosingCharacterState_updateState(player, "choosing")

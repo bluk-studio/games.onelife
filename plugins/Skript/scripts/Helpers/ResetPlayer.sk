@@ -1,0 +1,6 @@
+function Helper_resetPlayer(player: player):
+  heal {_player}
+  clear {_player}'s inventory
+  set {_player}'s food to 10
+
+  reset {_player}'s walking speed

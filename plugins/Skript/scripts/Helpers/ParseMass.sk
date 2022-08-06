@@ -1,0 +1,2 @@
+function Helper_parseMass(mass: number) :: string:
+  return "%{_mass}/1000% кг."

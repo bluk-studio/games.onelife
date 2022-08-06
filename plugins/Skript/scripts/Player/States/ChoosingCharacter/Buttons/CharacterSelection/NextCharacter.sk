@@ -1,0 +1,101 @@
+options:
+  hologram_location: -1603.5, 83.45, 991.4
+  stand_location: -1603.5, 82.5, 991.5
+
+function Player_ChoosingCharacterState_NextCharacterButton_createButton(player: player):
+  # Button location
+  set {_location::hologram} to location at {@hologram_location} in world "world"
+
+  # Creating hologram
+  create hologram with lines "&lСледующий персонаж", "&f" at {_location::hologram} and store it in {_hologram}
+  add {_hologram} to {garbage::holograms::*}
+
+  set {%{_player}%::ChoosingCharacterState::NextCharacterButton::hologram} to {_hologram}
+
+  # Hologram settings
+  make hologram {_hologram} invisible by default
+  reveal hologram {_hologram} to {_player}
+
+  # Creating interactable armor stand
+  set {_location::stand} to location at {@stand_location} in world "world"
+
+  spawn 1 armor stand at {_location::stand}
+  set {_stand} to last spawned armor stand
+  add {_stand} to {garbage::entities::*}
+
+  # Armor stand nbt
+  add "{NoGravity:1,Invisible:1}" to entity-nbt of {_stand}
+
+  # Starting worker
+  while true is true:
+    if {_player} is offline:
+      set {_action} to "stop"
+
+    if {%{_player}%::ChoosingCharacterState::state} is not "choosing":
+      set {_action} to "stop"
+
+    if {%{_player}%::state} isn't "choosing_character":
+      set {_action} to "stop"
+
+    # Stop action
+    if {_action} is "stop":
+      # Deleting hologram
+      delete hologram {_hologram}
+      kill {_stand}
+      stop
+
+    # Checking if player is looking at this hologram or no
+    if {_player}'s target is {_stand}:
+      set {_state} to "hovered"
+      set {_stateLocked} to true
+
+      set {%{_player}%::ChoosingCharacterState::isHovering} to true
+    else:
+      set {_state} to "not_hovered"
+
+      if {_stateLocked} is true:
+        delete {_stateLocked}
+        set {%{_player}%::ChoosingCharacterState::isHovering} to false
+
+    # Updating state
+    Player_ChoosingCharacterState_NextCharacterButton_updateState({_player}, {_state})
+
+    # Checking if player pressed this button or no
+    if {_state} is "hovered":
+      if {%{_player}%::ChoosingCharacterState::pressed} is true:
+        delete {%{_player}%::ChoosingCharacterState::pressed}
+        Player_ChoosingCharacterState_NextCharacterButton_updateState({_player}, "pressed")
+
+    wait 1 tick
+
+function Player_ChoosingCharacterState_NextCharacterButton_updateState(player: player, state: string):
+  # Getting hologram
+  set {_hologram} to {%{_player}%::ChoosingCharacterState::NextCharacterButton::hologram}
+
+  set {_currentCharacter} to {%{_player}%::ChoosingCharacterState::currentCharacter}
+  if {_currentCharacter} >= 3:
+    set {_nextCharacter} to "&cМест нет"
+  else:
+    set {_characterName} to {character::%{_player}%::%{_currentCharacter} + 1%::name}
+    set {_nextCharacter} to "&7&l%{_currentCharacter} + 1%/3 (%{_characterName}%)" if {_characterName} is set else "&7&l%{_currentCharacter} + 1%/3"
+
+  if line 2 of hologram {_hologram} isn't {_nextCharacter}:
+    set line 2 of hologram {_hologram} to {_nextCharacter}
+
+  if {_state} is "hovered":
+    if size of all lines of hologram {_hologram} < 3:
+      # Updating hologram
+      set line 3 of hologram {_hologram} to "&a&l-> &f&lПерейти"
+  
+  else if {_state} is "not_hovered":
+    # Checking last line of hologram
+    if size of all lines of hologram {_hologram} >= 3:
+      delete line 3 of hologram {_hologram}
+
+  else if {_state} is "pressed":
+    # Opening editing menu
+    set {_currentCharacter} to {%{_player}%::ChoosingCharacterState::currentCharacter}
+    if {_currentCharacter} < 3:
+      add 1 to {%{_player}%::ChoosingCharacterState::currentCharacter}
+
+      # Updating npc

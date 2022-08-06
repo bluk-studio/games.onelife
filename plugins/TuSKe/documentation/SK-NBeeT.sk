@@ -1,0 +1,305 @@
+Conditions:
+	Bound - Contains Location:
+		ID: CondBoundContainsLocation
+		Description:
+			Check if a location is within the bounds of a bounding box.
+		Since:
+			2.6.0
+		Patterns:
+			%locations% (is|are) [with]in [bound] %bound%
+			%locations% (isn't|is not|aren't|are not) [with]in [bound] %bound%
+Effects:
+	Bound - Convert:
+		ID: EffBoundConvert
+		Description:
+			Convert a bound from the old format to the new format. 
+			See the Sk-NBeeT wiki for conversion instructions: https://github.com/ShaneBeee/Sk-NBeeT/wiki/Bound-Conversion. 
+			This will be removed in the future after enough time has passed to convert old bounds.
+		Examples:
+			convert old bound {bound} to new bound with id "new.bound"
+		Patterns:
+			convert [old] bound %oldbound% to [a] [new] bound with id %string%
+	Bound - Create/Remove:
+		ID: EffBoundCreate
+		Description:
+			Create/Remove a bound with id between 2 locations. Optional value "full" is a bound from Y=0 to max height of world.
+		Examples:
+			create a new bound with id "%uuid of player%.home" between {loc1} and {loc2}
+			create a full bound with id "spawn" between {loc} and location of player
+			delete bound with id "my.home"
+		Patterns:
+			create [a] [new] [(full)] bound with id %string% (within|between) %location% and %location%
+			(delete|remove) bound with id %string%
+	Set Block with NBT:
+		ID: EffSetBlockNBT
+		Description:
+			Set a block at a location to a block with NBT
+		Examples:
+			set nbt-block at player to west facing furnace with nbt "{CustomName:""{\""text\"":\""&aFurnieFurnace\""}""}"
+			set nbt-block at event-location to hopper with nbt "{CustomName:""{\""text\"":\""&cHoppieHopper\""}""}"
+		Since:
+			2.0.0
+		Patterns:
+			set (nbt[(-| )]block|tile[(-| )]entity) %directions% %locations% to %itemtype% with nbt %string%
+	Spawn Entity with NBT:
+		ID: EffSpawnEntityNBT
+		Description:
+			Spawn an entity at a location with NBT
+		Examples:
+			spawn sheep at player with nbt "{NoAI:1b}"
+			spawn 1 of zombie at player with nbt "{NoGravity:1b}"
+		Since:
+			1.2.4
+		Patterns:
+			spawn %entitytypes% [%directions% %locations%] with nbt %string%
+			spawn %number% of %entitytypes% [%directions% %locations%] with nbt %string%
+	Structure Block: Load:
+		ID: EffLoadStructure
+		Description:
+			Load structure block structures that are saved on your server. Optional values for rotation, mirroring and the inclusion of entities. 1.9.4+ ONLY
+		Examples:
+			load "house" at location of player
+			load "barn" at location 10 infront of player
+			paste "house" at location of player with rotation 90 and with mirror left to right
+			load "sheep_pen" at location below player with rotation 180 and with entities
+		Since:
+			2.2.0
+		Patterns:
+			(load|paste) [structure] %string% at %location% [with rotation (0|90|180|270)] [(|[and] with entities)]
+			(load|paste) [structure] %string% at %location% [with rotation (0|90|180|270)] [and] [with] mirror front to back [(|[and] with entities)]
+			(load|paste) [structure] %string% at %location% [with rotation (0|90|180|270)] [and] [with] mirror left to right [(|[and] with entities)]
+	Structure Block: Save:
+		ID: EffSaveStructure
+		Description:
+			Save structure block structures. 1.9.4+ ONLY
+		Examples:
+			save structure between {loc1} and {loc2} as "house"
+		Since:
+			2.2.0
+		Patterns:
+			save [structure] between %location% and %location% as %string%
+Expressions:
+	Block Cuboid:
+		ID: ExprBlockCuboid
+		Description:
+			All the blocks within a cuboid located between 2 location points
+		Examples:
+			set {_blocks::*} to all blocks within {_loc1} and {_loc2}
+			set all blocks within {_loc1} and {_loc2} to stone
+			loop all blocks within {_loc1} and {_loc2}:
+				if loop-block is stone:
+					set loop-block to grass
+		Since:
+			2.1.0
+		Return type: Block
+		Changers:
+			add
+			set
+			remove
+			remove all
+			delete
+		Patterns:
+			[(all [[of] the]|the)] blocks within %location% and %location%
+	Bound - At Location:
+		ID: ExprBoundAtLocation
+		Description:
+			Get a list of bounds/ids at a location.
+		Examples:
+			set {_bounds::*} to bounds at player
+			set {_b::*} to bound ids at player
+			loop all bounds at player:
+		Since:
+			2.9.3
+		Return type: Object
+		Changers:
+			none
+		Patterns:
+			[(all [[of] the]|the)] bound[s] at %location%
+			[(all [[of] the]|the)] bound id[s] at %location%
+	Bound - Blocks:
+		ID: ExprBoundBlocks
+		Description:
+			All the blocks within a bound
+		Examples:
+			set {_blocks::*} to all blocks within bound {bound}
+			set all blocks within {bound} to stone
+			loop all blocks within bound {bound}:
+				if loop-block is stone:
+					set loop-block to grass
+		Since:
+			2.7.2
+		Return type: Block
+		Changers:
+			add
+			set
+			remove
+			remove all
+			delete
+		Patterns:
+			[(all [[of] the]|the)] blocks within [bound] %bound%
+	Bound - Coords:
+		ID: ExprBoundCoords
+		Description:
+			The coords and world of a bounding box. You can get the world/coords for a specific bound, you can also set the coords of a bounding box. You can NOT set the world of a bounding box. 
+			
+Lesser will always equal the lower south-east corner. 
+			Greater will always equal the higher north-west corner.
+		Examples:
+			set lesser y coord of {bound} to 10
+			set {_x} to greater x coord of bound with id "my.bound"
+		Since:
+			2.6.0
+		Return type: Object
+		Changers:
+			set
+		Patterns:
+			lesser (x|y|z) coord[inate] of [bound] %bound%
+			greater (x|y|z) coord[inate] of [bound] %bound%
+			world of bound %bound%
+	Bound - From ID:
+		ID: ExprBoundFromID
+		Description:
+			Get a bound object from a bound ID
+		Examples:
+			set {_b} to bound from id "%player%.home"
+		Since:
+			2.8.0
+		Return type: Bound
+		Changers:
+			none
+		Patterns:
+			bound (of|from|with) id %string%
+	Bounding Box:
+		ID: ExprBound
+		Description:
+			DEPRECATED... Please use new CREATE BOUND effect [Bound - Create/Remove]. 
+			To convert old bounds to new bounds use the new convert bound effect [Bound - Convert]. 
+			This will be removed in the future.
+		Since:
+			2.6.0-deprecated
+		Return type: Old Bounding Box - Deprecated
+		Changers:
+			none
+		Patterns:
+			[a] [new] [(full)] bound between %location% and %location%
+	Entity NoClip:
+		ID: ExprNoClip
+		Description:
+			Set or get the noClip status of an entity (This will not work on players)
+		Examples:
+			spawn a zombie at player
+			set not clip state of last spawned zombie to true
+			set {_var} to no clip state of last spawned sheep
+			loop all entities in radius 5 around player:
+				set no clip state of loop-entity to true
+				push loop-entity up with speed 5
+		Since:
+			1.2.4
+		Return type: Boolean
+		Changers:
+			set
+		Patterns:
+			no[( |-)]clip (state|mode) of %entities%
+			%entities%'s no[( |-)]clip (state|mode)
+	Hidden Item Flags:
+		ID: ExprHiddenFlags
+		Description:
+			Hides the item flags on items, allowing you to make super duper custom items.
+		Examples:
+			set player's tool to player's tool with attribute flag hidden
+			give player 1 diamond sword of sharpness 5 with hidden enchants flag
+			set {_tool} to player's tool with all flags hidden
+			give player potion of harming with hidden potion effects flag
+		Since:
+			1.2.1
+		Return type: Item Type
+		Changers:
+			none
+		Patterns:
+			%itemtype% with (attribute[s]|enchant[s]|destroy[s]|potion[ ]effect[s]|unbreakable|all) flag[s] hidden
+			%itemtype% with hidden (attribute[s]|enchant[s]|destroy[s]|potion[ ]effect[s]|unbreakable|all) flag[s]
+	NBT - Item with NBT:
+		ID: ExprItemWithNBT
+		Description:
+			Give players items with NBT or even use items with NBT in GUIs
+		Examples:
+			give player diamond sword with nbt "{Unbreakable:1}"
+			format gui slot 1 of player with diamond axe with nbt "{Enchantments:[{id:\"\"unbreaking\"\",lvl:5s}]}"
+		Since:
+			1.2.3
+		Return type: Item Type
+		Changers:
+			none
+		Patterns:
+			%itemtype% with [item( |-)]nbt %string%
+	NBT - Item/Entity/Block:
+		ID: ExprObjectNBT
+		Description:
+			NBT of items, entities, tile entities (such as a furnace, hopper, brewing stand, banner, etc) or files. Supports get, set, add and reset. Reset will only properly work on an item, not entities or blocks
+		Examples:
+			set {_nbt} to nbt of player's tool
+			add "{Enchantments:[{id:""sharpness"",lvl:5}]}" to nbt of player's tool
+			reset nbt of player's tool
+			set {_nbt} to nbt of target entity
+			set {_nbt} to event-entity
+			add "{CustomName:""{\""text\"":\""&bMyNewName\""}""}" to target entity
+			add "{RequiredPlayerRange:0s}" to targeted block's nbt
+			add "{SpawnData:{id:""minecraft:wither""}}" to nbt of clicked block
+			set {_nbt} to file-nbt of "world/playerdata/some-uuid-here.dat"
+		Since:
+			2.0.0
+		Return type: Text
+		Changers:
+			add
+			set
+			reset
+		Patterns:
+			[the] [(entity|item|block|tile[(-| )]entity|file)(-| )]nbt of %block/entity/itemstack/itemtype/string%
+			%block/entity/itemstack/itemtype/string%'[s] [(entity|item|block|tile[(-| )]entity|file)(-| )]nbt
+	NBT - Joined:
+		ID: ExprJoinedNBT
+		Description:
+			Joins two or more different NBTs together. The latter value will overwrite conflicting values between the them.
+		Examples:
+			set {_ex} to joined nbt from "{Test:false,Whatever:123}" and "{Something:something,Test:true}"
+		Since:
+			1.0.0
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			joined nbt[( |-)string] from %strings%
+	NBT - Tag:
+		ID: ExprTagOfNBT
+		Description:
+			Returns the value of the specified tag of the specified NBT. Also supports getting nested tags using a semi colon as a delimiter (version 2.11.1+). (Currently only supports get. Set may be available in the future)
+		Examples:
+			set {_tag} to tag "Invulnerable" of targeted entity's nbt
+			send "Tag: %tag ""CustomName"" of nbt of target entity%" to player
+			set {_tag} to "Enchantments" tag of nbt of player's tool
+			set {_tag} to "BlockEntityTag;Items" tag of nbt of target block
+		Since:
+			1.0.0
+		Return type: Text
+		Changers:
+			none
+		Patterns:
+			tag %string% of %string%
+			%string% tag of %string%
+Types:
+	Bound:
+		ID: Bound
+		Description:
+			Represents a 3D bounding box between 2 points
+		Since:
+			2.8.0
+		Patterns:
+			bound
+	Old Bounding Box - Deprecated:
+		ID: OldBound
+		Description:
+			Represents a 3D bounding box between 2 points. This is deprecated and no longer used.
+		Since:
+			2.6.0-Deprecated
+		Patterns:
+			oldbound

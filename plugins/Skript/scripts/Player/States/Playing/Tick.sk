@@ -1,0 +1,23 @@
+function Player_PlayingState_tick(player: player):
+  # First tick
+  if {%{_player}%::PlayingState::ticked} is not true:
+    set {%{_player}%::PlayingState::ticked} to true
+
+    # Loading player's inventory
+    Player_PlayingState_Inventory_loadInventory({_player})
+
+    wait 1 tick
+
+    # Calculating mass
+    Player_PlayingState_Inventory_calculateMass({_player})
+
+  # Cleaner
+  if {%{_player}%::state} isn't "playing":
+    delete {%{_player}%::PlayingState::*}
+    delete {bossbar::%{_player}%::*}
+    stop
+
+  # Different ticks
+
+  # > Inventory tick
+  Player_PlayingState_Inventory_tick({_player})

@@ -1,0 +1,6 @@
+function Player_Characteristics_getMaximumMass(player: player, characterId: number) :: number:
+  set {_mass} to {character::%{_player}%::%{_characterId}%::maximumMass}
+  if {_mass} is not set:
+    set {_mass} to 10000
+
+  return {_mass}
