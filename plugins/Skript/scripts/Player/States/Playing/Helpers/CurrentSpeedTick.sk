@@ -1,0 +1,15 @@
+function Player_PlayingState_CurrentSpeed_tick(player: player):
+  set {_location} to {_player}'s location
+  if {%{_player}%::latestLocation} is not set:
+    set {%{_player}%::latestLocation} to {_location}
+
+  if {%{_player}%::PlayingState::CurrentSpeed::timer} <= 0:
+    set {%{_player}%::PlayingState::CurrentSpeed::timer} to 0.25
+
+    # Determining player's speed
+    set {_speed} to distance between {_player} and {%{_player}%::latestLocation}
+    set {%{_player}%::latestLocation} to {_player}'s location
+
+    set {%{_player}%::currentSpeed} to {_speed}
+
+  reduce {%{_player}%::PlayingState::CurrentSpeed::timer} by 0.05

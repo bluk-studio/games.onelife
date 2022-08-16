@@ -1,0 +1,34 @@
+function ProfessionalSkills_SystemItems_getItem(player: player, characterId: number, type: string) :: items:
+  # Getting character information
+  set {_availablePoints} to Player_ProfessionalSkills_getAvailablePoints({_player}, {_characterId})
+  set {_upgradablePoints} to Player_ProfessionalSkills_getUpgradablePoints({_player}, {_characterId})
+
+  # Item information
+  if {_type} is "info":
+    set {_name} to "Кол-во доступных очков: %{_availablePoints}% очков"
+    set {_lore::*} to "Можно получить: %{_upgradablePoints}% очков"
+    set {_textureId} to "ProfessionalSkills_SystemItems_Info"
+  else if {_type} is "help":
+    set {_name} to "Нужна помощь?"
+    set {_lore::*} to "Помощь"
+    set {_textureId} to "ProfessionalSkills_SystemItems_Help"
+  else if {_type} is "back":
+    set {_name} to "Вернуться назад"
+    set {_lore::*} to "В меню ""Другие настройки"""
+    set {_textureId} to "ProfessionalSkills_SystemItems_Back"
+    set {_nbt} to "{ButtonFunction:""Player_ChoosingCharacterState_OtherCategoriesButton_openMenu({_player})""}"
+
+  # Main item
+  set {_item::main} to quartz named {_name} with lore {_lore::*}
+  add "{TextureId:""%{_textureId}%""}" to item-nbt of {_item::main}
+
+  # Filler
+  set {_item::filler} to quartz named {_name} with lore {_lore::*}
+  add "{TextureId:""InvisibleSlot""}" to item-nbt of {_item::filler}
+
+  # Nbt
+  if {_nbt} is set:
+    add {_nbt} to item-nbt of {_item::main}
+    add {_nbt} to item-nbt of {_item::filler}
+
+  return {_item::main}, {_item::filler}

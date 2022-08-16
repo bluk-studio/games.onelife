@@ -1,0 +1,48 @@
+function Player_PlayingState_switchItem(player: player, slot: number):
+  # Getting item
+  set {_item} to slot {_slot} of {_player}'s inventory
+  if {_item} is air:
+    stop
+
+  set {_itemId} to tag "ItemId" of item-nbt of {_item}
+  if {_itemId} is not set:
+    stop
+
+  # Getting item information
+  set {_switchTime} to {item::%{_itemId}%::switchTime} ? 0.5
+  set {_switchSound} to {item::%{_itemId}%::switchSound} ? "entity.item.pickup"
+
+  set {_soundTime} to 0
+
+  # Starting worker
+  while true is true:
+    if {_player} is offline:
+      # Updating player's inventory
+      # +todo
+      set slot {_slot} of {_player}'s inventory to {_item}
+      stop
+
+    if {%{_player}%::currentSlot} isn't {_slot}:
+      # Canceling
+      set slot {_slot} of {_player}'s inventory to {_item}
+      stop
+
+    # Playing sound
+    reduce {_soundTime} by 0.05
+    if {_soundTime} <= 0:
+      set {_soundTime} to 0.25
+      play sound {_switchSound} at volume 1 at {_player}'s location
+
+    # "Switch item"
+    set slot {_slot} of {_player}'s inventory to barrier named "&e%{_switchTime}%"
+
+    # Reducing switch time
+    reduce {_switchTime} by 0.05
+    if {_switchTime} <= 0:
+      # Updating item
+      # add "{IsCurrentItem:1}" to item-nbt of {_item}
+      set slot {_slot} of {_player}'s inventory to {_item}
+
+      stop
+
+    wait 1 tick

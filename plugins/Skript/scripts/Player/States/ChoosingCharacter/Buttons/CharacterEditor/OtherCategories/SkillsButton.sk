@@ -1,0 +1,15 @@
+function Player_ChoosingCharacterState_OtherCategories_getSkillsButtonItem() :: items:
+  set {_name} to "Навыки Профессий"
+  set {_lore::*} to "Навыки профессий"
+  set {_textureId} to "PlayerEditor_OtherCategories_SkillsButton"
+  set {_buttonFunction} to "Character_ProfessionalSkills_openMenu({_player})"
+
+  # Main item
+  set {_item::main} to quartz named {_name} with lore {_lore::*}
+  add "{TextureId:""%{_textureId}%"",ButtonFunction:""%{_buttonFunction}%""}" to item-nbt of {_item::main}
+
+  # Filler item
+  set {_item::filler} to quartz named {_name} with lore {_lore::*}
+  add "{TextureId:""InvisibleSlot"",ButtonFunction:""%{_buttonFunction}%""}" to item-nbt of {_item::filler}
+
+  return {_item::main}, {_item::filler}

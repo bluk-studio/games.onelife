@@ -1,0 +1,30 @@
+function Player_ProfessionalSkills_getAvailablePoints(player: player, characterId: number) :: number:
+  if {character::%{_player}%::%{_characterId}%::skills::points} is not set:
+    set {character::%{_player}%::%{_characterId}%::skills::points} to 5
+  
+  set {_points} to {character::%{_player}%::%{_characterId}%::skills::points}
+  return 0 if {_points} < 0 else {_points}
+
+function Player_ProfessionalSkills_getUpgradablePoints(player: player, characterId: number) :: number:
+  if {character::%{_player}%::%{_characerId}%::skills::upgradablePoints} is not set:
+    set {character::%{_player}%::%{_characerId}%::skills::upgradablePoints} to 5
+
+  set {_upgradablePoints} to {character::%{_player}%::%{_characerId}%::skills::upgradablePoints}
+  return 0 if {_upgradablePoints} < 0 else {_upgradablePoints}
+
+function Player_ProfessionalSkills_getLevel(player: player, characterId: number, skill: string) :: number:
+  set {_level} to {character::%{_player}%::%{_characterId}%::skill::%{_skill}%::level}
+  if {_level} is not set:
+    set {_level} to 0
+
+  return {_level}
+
+function Player_ProfessionalSkills_canUpgrade(player: player, characterId: number, skill: string) :: boolean:
+  return true
+
+function Player_ProfessionalSkills_upgrade(player: player, characterId: number, skill: string):
+  # Removing one point from available points
+  reduce {character::%{_player}%::%{_characterId}%::skills::points} by 1
+
+  # Adding level
+  add 1 to {character::%{_player}%::%{_characterId}%::skill::%{_skill}%::level}

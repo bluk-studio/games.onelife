@@ -15,17 +15,17 @@ function Player_PlayingState_Inventory_calculateMass(player: player):
 
         add {_itemId} to {_processedItems::*}
 
-  set {player::%{_player}%::mass} to {_mass}
+  set {%{_player}%::mass} to {_mass}
 
   # Checking if we need to notify player about
   # mass change
-  if {player::%{_player}%::previousMass} is not set:
-    set {player::%{_player}%::previousMass} to {_mass}
+  if {%{_player}%::previousMass} is not set:
+    set {%{_player}%::previousMass} to {_mass}
     stop
 
   if {_mass} is 0:
     stop
 
-  if {player::%{_player}%::previousMass} isn't {_mass}:
-    set {player::%{_player}%::previousMass} to {_mass}
+  if {%{_player}%::previousMass} isn't {_mass}:
+    set {%{_player}%::previousMass} to {_mass}
     Player_PlayingState_Inventory_notifyAboutMassChange({_player})

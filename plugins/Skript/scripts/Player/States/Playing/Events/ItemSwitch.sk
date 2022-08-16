@@ -1,0 +1,36 @@
+import:
+  org.bukkit.event.player.PlayerItemHeldEvent
+
+on PlayerItemHeldEvent:
+  set {_player} to "%event.getPlayer()%" parsed as offline player
+  
+  if {%{_player}%::state} isn't "playing":
+    stop
+  
+  # Getting current slot
+  set {_currentSlot} to event.getNewSlot()
+
+  set {%{_player}%::currentSlot} to {_currentSlot}
+
+  # Getting latest slot
+  # set {_previousSlot} to event.getPreviousSlot()
+  # set {_previousItem} to slot {_previousSlot} of {_player}'s inventory
+
+  # # Updating previous item slot
+  # add "{IsCurrentItem:0}" to item-nbt of {_previousItem}
+  # set slot {_previousSlot} of {_player}'s inventory to {_previousItem}
+
+  # Getting item information
+  set {_item} to slot {_currentSlot} of {_player}'s inventory
+  if {_item} isn't air:
+    set {_itemId} to tag "ItemId" of item-nbt of {_item}
+    if {_itemId} is not set:
+      stop
+
+    # Starting switch process
+    Player_PlayingState_switchItem({_player}, {_currentSlot})
+  
+# on inventory click:
+#   if {%player%::state} is "playing":
+#     if {%player%::currentSlot} is event-slot:
+#       wait 2 ticks

@@ -4,22 +4,16 @@ settings:
   # Enable this if you would like to see more verbose debug messages
   debug: false
 
-  # Enable this to automatically check for SkBee updates
-  # Disable this if you do not want to check for updates, or it takes too long/has issues checking
-  update-checker: true
-
 # Disable elements you do not plan to use.
 elements:
   # Enable NBT elements
   nbt: true
 
-  # Enable Scoreboard elements
+  # Enable Scoreboard and Team elements
   scoreboard: true
 
-  # Enable Team elements
-  team: true
-
   # Enable custom recipe elements
+  # Note: Only available on 1.13+
   recipe: true
 
   # Enable bound elements
@@ -27,9 +21,11 @@ elements:
   bound: true
 
   # Enable structure elements
+  # Note: Only available on 1.9.4+
   structure: true
 
   # Enable VirtualFurnace elements
+  # Note: Only available on 1.13+
   # This feature is semi-experimental, please use with caution
   virtual-furnace: false
 
@@ -37,7 +33,7 @@ elements:
   text-component: true
 
   # Enable pathfinding elements
-  # Note: Only available on Paper
+  # Note: Only available on Paper 1.13+
   pathfinding: true
 
   # Enable world creator elements
@@ -47,22 +43,8 @@ elements:
   auto-load-custom-worlds: true
 
   # Enable Minecraft GameEvent elements
+  # Note: Only available on MC 1.17+
   game-event: true
-
-  # Enable boss bar elements
-  boss-bar: true
-
-  # Enable statistic elements
-  statistic: true
-
-  # Enable villager/merchant elements
-  villager: true
-
-  # Enable advancement elements
-  advancement: true
-
-  # Enable world border elements
-  world-border: true
 
 recipe:
   # This is the namespace all recipes will be saved under

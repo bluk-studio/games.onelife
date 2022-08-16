@@ -1,0 +1,106 @@
+function Character_ProfessionalSkills_openMenu(player: player):
+  # Getting player information
+
+  # Opening menu
+  open chest inventory with 6 rows named "Профессиональные Навыки" to {_player}
+
+  # Default items
+  set {_item} to quartz named "&f"
+  add "{TextureId:""empty""}" to item-nbt of {_item}
+
+  loop numbers between 0 and 59:
+    set slot loop-value of {_player}'s current inventory to {_item}
+
+  # Basic information
+  set {_infoButton::items::*} to ProfessionalSkills_SystemItems_getItem({_player}, {_characterId}, "info")
+  set {_infoButton::main} to {_infoButton::items::1}
+  set {_infoButton::filler} to {_infoButton::items::2}
+
+  set slot 0 of {_player}'s current inventory to {_infoButton::main}
+  set slots 1, 9,10 of {_player}'s current inventory to {_infoButton::filler}
+
+  # Help button
+  set {_helpButton::items::*} to ProfessionalSkills_SystemItems_getItem({_player}, {_characterId}, "help")
+  set {_helpButton::main} to {_helpButton::items::1}
+  set {_helpButton::filler} to {_helpButton::items::2}
+
+  set slot 18 of {_player}'s current inventory to {_helpButton::main}
+  set slots 19, 27,28 of {_player}'s current inventory to {_helpButton::filler}
+
+  # Back button
+  set {_backButton::items::*} to ProfessionalSkills_SystemItems_getItem({_player}, {_characterId}, "back")
+  set {_backButton::main} to {_backButton::items::1}
+  set {_backButton::filler} to {_backButton::items::2}
+
+  set slot 36 of {_player}'s current inventory to {_backButton::main}
+  set slot 37, 45,46 of {_player}'s current inventory to {_backButton::filler}
+  
+  # -------------------------------------
+  # 
+  # Getting and placing skill buttons
+  # 
+  # -------------------------------------
+  set {_buttons::*} to ProfessionalCharacteristics_getAllSkills()
+
+  set {_slots::*} to 3,6, 30,33
+  loop {_buttons::*}:
+    # Cleaner
+    delete {_info::*}
+    delete {_item::*}
+    delete {_button::*}
+
+    # Finding slot
+    set {_slot} to first element of {_slots::*}
+    remove {_slot} from {_slots::*}
+
+    # Getting button info and placing it
+    set {_buttonId} to loop-value
+
+    evaluate "set {_info::items::*} to ProfessionalSkills_%{_buttonId}%_getItem({_player}, {_characterId}, ""info"")"
+    evaluate "set {_button::items::*} to ProfessionalSkills_%{_buttonId}%_getItem({_player}, {_characterId}, ""button"")"
+    evaluate "set {_revert::items::*} to ProfessionalSkills_%{_buttonId}%_getItem({_player}, {_characterId}, ""revert"")"
+
+    # Info
+    set {_info::main} to {_info::items::1}
+    set {_info::filler} to {_info::items::2}
+    
+    set slot {_slot} of {_player}'s current inventory to {_info::main}
+
+    loop 1,2, 9,10,11:
+      set {_slot::temp} to {_slot} + "%loop-value-2%" parsed as number
+      set slot {_slot::temp} of {_player}'s current inventory to {_info::filler}
+
+    set {_slot} to {_slot} + 18
+
+    # Button
+    set {_button::main} to {_button::items::1}
+    set {_button::filler} to {_button::items::2}
+
+    {_button::main} and {_button::filler} is set:
+      set slot {_slot} of {_player}'s current inventory to {_button::main}
+
+      # Filler item
+      set {_slot::temp} to {_slot} + 1
+      set slot {_slot::temp} of {_player}'s current inventory to {_button::filler}
+
+    # Revert button
+    set {_revert::main} to {_revert::items::1}
+    set slot {_slot} + 2 of {_player}'s current inventory to {_revert::main}
+
+# Listening for clicks
+on inventory click:
+  if name of player's current inventory contains "Профессиональные Навыки":
+    cancel event
+
+    # Getting button id
+    set {_function} to tag "ButtonFunction" of item-nbt of event-slot
+    if {_function} is set:
+      # Preparing variables
+      set {_player} to player
+      set {_characterId} to {%{_player}%::currentCharacter}
+
+      evaluate "%{_function}%"
+
+command menu:
+  trigger:
+    Character_ProfessionalSkills_openMenu(player)

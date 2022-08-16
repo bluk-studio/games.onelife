@@ -1,0 +1,15 @@
+on death:
+  {%victim%::state} is "playing"
+  force victim to respawn
+
+  # todo
+  # Add corpse? With blood.
+
+on respawn:
+  {%player%::state} is "playing"
+
+  # todo
+  #  
+
+  # Setting player state to "choosing_character"
+  set {%player%::nextState} to "choosing_character"

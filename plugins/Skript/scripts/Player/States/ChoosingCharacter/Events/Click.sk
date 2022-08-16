@@ -1,4 +1,9 @@
 on right click:
+  if {%player%::ChoosingCharacterState::buttonClickTimeout} is not set:
+    set {%player%::ChoosingCharacterState::buttonClickTimeout} to 1
+  else:
+    stop
+
   # Checking state
   if {%player%::state} isn't "choosing_character":
     stop
@@ -19,7 +24,9 @@ on right click:
 
   # Edit character
   else if {_name} contains "Редактировать персонажа":
+    broadcast "edit"
     Player_ChoosingCharacterState_updateState(player, "editing")
+    stop
 
   # Update field
   else if {_name} contains "Редактировать" or "Переключить":
@@ -27,7 +34,9 @@ on right click:
       set {%player%::ChoosingCharacterState::pressed} to true
 
   else if {_name} contains "Назад к списку":
+    broadcast "choose"
     Player_ChoosingCharacterState_updateState(player, "choosing")
+    stop
 
   # Sub-state related
   # if {%player%::ChoosingCharacterState::state} is "choosing":

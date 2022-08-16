@@ -1,0 +1,82 @@
+options:
+  SKILL_NAME: crime
+
+function ProfessionalSkills_Crime_getItem(player: player, characterId: number, type: string) :: items:
+  # Getting character information
+  set {_level} to Player_ProfessionalSkills_getLevel({_player}, {_characterId}, "crime")
+  set {_availablePoints} to Player_ProfessionalSkills_getAvailablePoints({_player}, {_characterId})
+
+  # Info or Button
+  if {_type} is "info":
+    set {_name} to "&fПреступность &7(Уровень: %{_level}%)"
+    set {_lore::*} to "lore"
+    set {_textureId} to "ProfessionalSkills_Crime_Info"
+  else if {_type} is "button":
+    if {_level} is 5:
+      set {_name} to "&fМаксимальный уровень"
+      set {_lore::*} to "lore"
+      set {_textureId} to "ProfessionalSkills_Button_Blocked"
+    else if {_level} is 0:
+      # Can player buy this skill?
+      if {_availablePoints} > 0:
+        set {_name} to "&fУлучшить до 1 Уровня"
+        set {_lore::*} to "lore"
+        set {_buttonFunction} to "ProfessionalSkills_Crime_buy({_player}, {_characerId})"
+        set {_textureId} to "ProfessionalSkills_Button_UpgradeTo%{_level} + 1%"
+      else:
+        set {_name} to "&fНевозможно улучшить &c(Недостаточно очков)"
+        set {_lore::*} to "lore"
+        set {_textureId} to "ProfessionalSkills_Button_Blocked"
+    else:
+      # Can player upgrade this skill?
+      if {_availablePoints} > 0:
+        if Player_ProfessionalSkills_canUpgrade({_player}, {_characterId}, "crime") is true:
+          set {_name} to "&fУлучшить до %{_level} + 1% уровня"
+          set {_lore::*} to "lore"
+          set {_buttonFunction} to "ProfessionalSkills_Crime_buy({_player}, {_characerId})"
+          set {_textureId} to "ProfessionalSkills_Button_UpgradeTo%{_level} + 1%"
+
+      if {_item} is not set:
+        set {_name} to "Невозможно улучшить"
+        set {_lore::*} to "lore"
+        set {_textureId} to "ProfessionalSkills_Button_Blocked"
+  else if {_type} is "revert":
+    # Checking if player can revert this level
+    if {_level} > 0:
+      set {_name} to "Откатить к %{_level} - 1% уровню"
+      set {_lore::*} to "Lore"
+      set {_buttonFunction} to "ProfessionalSkills_Crime_revert({_player}, {_characterId})"
+      set {_textureId} to "ProfessionalSkills_Revert"
+    else:
+      set {_name} to "Нельзя откатить"
+      set {_lore::*} to "Lore"
+      set {_textureId} to "ProfessionalSkills_Revert_Blocked"
+
+  # Generating items
+  set {_item::main} to quartz named {_name} with lore {_lore::*}
+  add "{TextureId:""%{_textureId}%""}" to item-nbt of {_item::main}
+
+  set {_item::filler} to quartz named {_name} with lore {_lore::*}
+  add "{TextureId:""InvisibleSlot""}" to item-nbt of {_item::filler}
+
+  if {_buttonFunction} is set:
+    set {_nbt} to "{ButtonFunction:""%{_buttonFunction}%""}"
+    
+    add {_nbt} to item-nbt of {_item::main}
+    add {_nbt} to item-nbt of {_item::filler}
+  
+  return {_item::main}, {_item::filler}
+
+function ProfessionalSkills_Crime_buy(player: player, characterId: number):
+  # Checking if player can buy new level
+  set {_level} to Player_ProfessionalSkills_getLevel({_player}, {_characterId}, "crime")
+  set {_availablePoints} to Player_ProfessionalSkills_getAvailablePoints({_player}, {_characterId})
+
+  {_level} <= 5
+  {_availablePoints} > 0
+  Player_ProfessionalSkills_canUpgrade({_player}, {_characerId}, "crime") is true:
+    # Buying new level
+    Player_ProfessionalSkills_upgrade({_player}, {_characterId}, "crime")
+
+    # Updating player inventory
+    Character_ProfessionalSkills_openMenu({_player})

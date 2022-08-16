@@ -1,8 +1,8 @@
 function Player_PlayingState_Inventory_notifyAboutMassChange(player: player):
   # Getting mass information
-  set {_mass} to {player::%{_player}%::mass}
+  set {_mass} to {%{_player}%::mass}
 
-  set {_character} to {player::%{_player}%::currentCharacter}
+  set {_character} to {%{_player}%::currentCharacter}
   set {_mass::maximum} to Player_Characteristics_getMaximumMass({_player}, {_character})
 
   # Showing bossbar to player
@@ -16,7 +16,7 @@ function Player_PlayingState_Inventory_notifyAboutMassChange(player: player):
     if {_player} is offline:
       stop
 
-    if {player::%{_player}%::mass} isn't {_mass}:
+    if {%{_player}%::mass} isn't {_mass}:
       stop
 
     reduce {_timer} by 0.05

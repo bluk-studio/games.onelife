@@ -16,7 +16,7 @@ enableFastScoreBoards: true
 
 #Options: true or false      Recommended setting: true
 
-UpdateAlerts: true
+UpdateAlerts: false
 
 #-------------------------------------------------------------------------------------------
 

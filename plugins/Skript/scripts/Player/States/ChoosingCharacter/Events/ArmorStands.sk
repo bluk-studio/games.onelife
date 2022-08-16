@@ -1,0 +1,4 @@
+on right click:
+  if {%player%::state} is "choosing_character":
+    event-entity is armor stand:
+      cancel event

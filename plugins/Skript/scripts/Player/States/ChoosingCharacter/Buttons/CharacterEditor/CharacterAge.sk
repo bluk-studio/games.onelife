@@ -1,6 +1,6 @@
 options:
   hologram_location: -1603.5, 83.05, 995.4
-  stand_location: -1603.5, 82, 995.5
+  stand_location: -1602.5, 82, 994.8
 
 function Player_ChoosingCharacterState_CharacterAgeButton_createButton(player: player):
   # Button location
@@ -24,7 +24,7 @@ function Player_ChoosingCharacterState_CharacterAgeButton_createButton(player: p
   add {_stand} to {garbage::entities::*}
 
   # Armor stand nbt
-  add "{NoGravity:1,Invisible:1}" to entity-nbt of {_stand}
+  add "{NoGravity:1,Invisible:1}" to nbt of {_stand}
 
   # Starting worker
   while true is true:

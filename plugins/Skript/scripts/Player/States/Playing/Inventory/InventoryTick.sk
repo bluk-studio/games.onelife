@@ -1,7 +1,55 @@
+options:
+  # Fatigue-related settings
+  WALKING_SPEED: 1.0
+  RUNNING_SPEED: 1.35
+
 function Player_PlayingState_Inventory_tick(player: player):
   # 
   # Checking player mass
-  set {_mass} to {player::%{_player}%::mass}
-  set {_character} to {player::%{_player}%::currentCharacter}
+  set {_mass} to {%{_player}%::mass}
+  set {_character} to {%{_player}%::currentCharacter}
   set {_mass::maximum} to Player_Characteristics_getMaximumMass({_player}, {_character})
-  
+  set {_mass::threshold} to {_mass::maximum}/2
+
+  # Checking current mass
+  set {_speed} to {%{_player}%::currentSpeed}
+  if {_mass} > {_mass::maximum}:
+    # Apply slowness effect on player
+    if active potion effects of {_player} doesn't contain slowness:
+      apply potion of slowness of tier 1 without particles to {_player} for 0.5 seconds replacing the existing effect
+
+    # Walking
+    if {_speed} >= {@WALKING_SPEED} - 0.25:
+      add 0.1 to {%{_player}%::mass::fatigue}
+    # Running
+    else if {_speed} >= {@RUNNING_SPEED} - 0.25:
+      add 0.5 to {%{_player}%::mass::fatigue}
+    # Standing
+    else:
+      add 0.05 to {%{_player}%::mass::fatigue}
+  else:
+    # Effect: Light Fatigue
+    if {_mass} > {_mass::threshold}:
+      # Walking
+      if {_speed} >= {@WALKING_SPEED}:
+        add 0.05 to {%{_player}%::mass::fatigue}
+      # Running
+      else if {_speed} >= {@RUNNING_SPEED}:
+        add 0.1 to {%{_player}%::mass:fatigue}
+      # Not doing anything
+      else:
+        if {%{_player}%::mass::fatigue} > 0:
+          reduce {%{_player}%::mass::fatigue} by 0.05
+    else:
+      # Deleting fatigue information
+      delete {%{_player}%::mass::fatigue}
+
+  set {_fatigue} to {%{_player}%::mass::fatigue}
+
+  # Checking current fatigue and notifying player of it
+  if {_fatigue} >= 20:
+    delete {%{_player}%::mass::fatigue}
+
+    # Removing
+    reduce {_player}'s food level by 0.5
+      

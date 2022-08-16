@@ -80,7 +80,7 @@ function Player_ChoosingCharacterState_promptPlayer(player: player, type: string
 
       if {_stop} is true:
         delete {%{_player}%::ChoosingCharacterState::isEditingField}
-        apply potion of blindness of tier 100 without particles to {_player} for 0.1 seconds replacing the existing effect
+        clear all the potion effects of {_player}
         stop
 
     reduce {_potionTimer} by 0.05

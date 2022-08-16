@@ -1,27 +1,30 @@
 on drop:
-  # Getting item id from nbt
-  set {_itemId} to Helper_getItemId(event-item)
-  
-  if {items::*} doesn't contain {_itemId}:
-    cancel event
+  {%player%::state} is "playing":
+    # Getting item id from nbt
+    set {_itemId} to Helper_getItemId(event-item)
+    
+    if {items::*} doesn't contain {_itemId}:
+      cancel event
 
-    wait 2 ticks
-    remove all event-item from player's inventory
+      wait 2 ticks
+      remove all event-item from player's inventory
 
 on pickup:
-  set {_itemId} to Helper_getItemId(event-item)
-  
-  if {items::*} doesn't contain {_itemId}:
-    wait 2 ticks
-    remove all event-item from player's inventory
+  {%player%::state} is "playing":
+    set {_itemId} to Helper_getItemId(event-item)
+    
+    if {items::*} doesn't contain {_itemId}:
+      wait 2 ticks
+      remove all event-item from player's inventory
 
 on inventory click:
-  if name of player's current inventory is "container.crafting":
-    if event-slot is not air:
-      set {_itemId} to Helper_getItemId(event-slot)
-      
-      if {items::*} doesn't contain {_itemId}:
-        cancel event
-        
-        wait 2 ticks
-        remove all event-slot from player's inventory
+  {%player%::state} is "playing":
+    if name of player's current inventory is "container.crafting":
+      if event-slot is not air:
+        set {_itemId} to Helper_getItemId(event-slot)
+
+        if {items::*} doesn't contain {_itemId}:
+          cancel event
+          
+          wait 2 ticks
+          remove all event-slot from player's inventory

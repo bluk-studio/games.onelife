@@ -2,6 +2,17 @@ function Player_PlayingState_tick(player: player):
   # First tick
   if {%{_player}%::PlayingState::ticked} is not true:
     set {%{_player}%::PlayingState::ticked} to true
+    set {_characterId} to {%{_player}%::currentCharacter}
+
+    # Loading player's health, food and so on
+    set {_health} to {character::%{_player}%::%{_characterId}%::health} ? 10
+    set {_food} to {character::%{_player}%::%{_characterId}%::food} ? 10
+
+    set {_player}'s health to {_health}
+    set {_player}'s food to {_food}
+
+    # Other mandatory things
+    reset {_player}'s walking speed
 
     # Loading player's inventory
     Player_PlayingState_Inventory_loadInventory({_player})
@@ -17,7 +28,19 @@ function Player_PlayingState_tick(player: player):
     delete {bossbar::%{_player}%::*}
     stop
 
+  # Gamemode
+  if {_player}'s gamemode isn't adventure:
+    set {_player}'s gamemode to adventure
+    
   # Different ticks
+  
+  # > Speed tick
+  Player_PlayingState_CurrentSpeed_tick({_player})
 
   # > Inventory tick
   Player_PlayingState_Inventory_tick({_player})
+
+  # Saving character's information about health and food
+  set {_characterId} to {%{_player}%::currentCharacter}
+  set {character::%{_player}%::%{_characterId}%::health} to {_player}'s health
+  set {character::%{_player}%::%{_characterId}%::food} to {_player}'s food

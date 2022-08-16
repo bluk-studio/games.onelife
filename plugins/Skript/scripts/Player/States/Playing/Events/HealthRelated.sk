@@ -1,0 +1,7 @@
+on heal:
+  event-entity is player
+  cancel event
+
+on damage:
+  if damage cause is starvation:
+    cancel event

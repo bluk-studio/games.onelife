@@ -2,7 +2,7 @@ function Player_PlayingState_Inventory_loadInventory(player: player):
   clear {_player}'s inventory
 
   # Getting this character id
-  set {_characterId} to {player::%{_player}%::currentCharacter}
+  set {_characterId} to {%{_player}%::currentCharacter}
 
   # Loading items
   set {_items::*} to {character::%{_player}%::%{_characterId}%::items::*}

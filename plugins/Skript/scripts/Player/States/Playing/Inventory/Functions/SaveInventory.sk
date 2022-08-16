@@ -1,6 +1,6 @@
 function Player_PlayingState_Inventory_saveInventory(player: player):
   # Getting this character id
-  set {_characterId} to {player::%{_player}%::currentCharacter}
+  set {_characterId} to {%{_player}%::currentCharacter}
 
   # Looping player items
   loop numbers between 0 and 35:

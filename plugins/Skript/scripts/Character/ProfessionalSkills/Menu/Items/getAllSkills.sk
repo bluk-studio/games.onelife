@@ -1,0 +1,2 @@
+function ProfessionalCharacteristics_getAllSkills() :: strings:
+  return "Cooking", "Engineering", "Pharmacology", "Crime"

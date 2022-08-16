@@ -1,6 +1,6 @@
 options:
   hologram_location: -1603.5, 83.05, 991.4
-  stand_location: -1603.5, 82, 991.5
+  stand_location: -1602.5, 82, 992
 
 function Player_ChoosingCharacterState_OtherCategoriesButton_createButton(player: player):
   # Button location
@@ -24,7 +24,7 @@ function Player_ChoosingCharacterState_OtherCategoriesButton_createButton(player
   add {_stand} to {garbage::entities::*}
 
   # Armor stand nbt
-  add "{NoGravity:1,Invisible:1}" to entity-nbt of {_stand}
+  add "{NoGravity:1,Invisible:1}" to nbt of {_stand}
 
   # Starting worker
   while true is true:
@@ -84,3 +84,40 @@ function Player_ChoosingCharacterState_OtherCategoriesButton_updateState(player:
 
   else if {_state} is "pressed":
     # Opening editing menu
+    Player_ChoosingCharacterState_OtherCategoriesButton_openMenu({_player})
+
+function Player_ChoosingCharacterState_OtherCategoriesButton_openMenu(player: player):
+  # Opening virtual menu to this player
+  open chest inventory with 6 rows named "Другие категории" to {_player}
+
+  # Default items
+  set {_item} to quartz named "&f"
+  add "{TextureId:""empty""}" to item-nbt of {_item}
+
+  loop numbers between 0 and 59:
+    set slot loop-value of {_player}'s current inventory to {_item}
+
+  # Skills
+  set {_skillsButton::items::*} to Player_ChoosingCharacterState_OtherCategories_getSkillsButtonItem()
+  set {_skillsButton::main} to {_skillsButton::items::1}
+  set {_skillsButton::filler} to {_skillsButton::items::2}
+
+  set slot 10 of {_player}'s current inventory to {_skillsButton::main}
+
+  # Filler slots
+  set slots 11,12, 19,20,21 of {_player}'s current inventory to {_skillsButton::filler}
+
+# Listening to inventory click events
+on inventory click:
+  if name of player's current inventory contains "Другие категории":
+    cancel event
+
+    # Getting information about this button
+    set {_function} to tag "ButtonFunction" of item-nbt of event-item
+    
+    if {_function} is set:
+      # Preparing variables for funciton
+      set {_player} to player
+
+      # Calling function
+      evaluate "%{_function}%"
