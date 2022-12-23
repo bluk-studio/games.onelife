@@ -1,0 +1,2 @@
+function Player_TransferringState_TripTypes_getAvailableTripTypes() :: strings:
+    return "bus" and "railway"

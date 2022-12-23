@@ -24,7 +24,6 @@ on right click:
 
   # Edit character
   else if {_name} contains "Редактировать персонажа":
-    broadcast "edit"
     Player_ChoosingCharacterState_updateState(player, "editing")
     stop
 
@@ -34,7 +33,6 @@ on right click:
       set {%player%::ChoosingCharacterState::pressed} to true
 
   else if {_name} contains "Назад к списку":
-    broadcast "choose"
     Player_ChoosingCharacterState_updateState(player, "choosing")
     stop
 

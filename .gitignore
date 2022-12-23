@@ -3,6 +3,8 @@ cache
 logs
 
 # Server-related
+libraries
+versions
 banned-ips.json
 banned-players.json
 ops.json

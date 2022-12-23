@@ -1,0 +1,13 @@
+function Player_TransferringState_startScreenFadeAnimation(player: player, isReversed: boolean):
+    if {_isReversed}:
+        set {_fadeIn} to 0 ticks
+        set {_fadeOut} to 4 seconds
+    else:
+        set {_fadeIn} to 4 seconds
+        set {_fadeOut} to 0 ticks
+    
+    # Sending player screen fade title
+    send title "Screen Fade!" with subtitle "Animation..." to {_player} for 1 second with fade in {_fadeIn} and fade out {_fadeOut}
+
+    # Updating TranserringState information
+    set {%{_player}%::TranserringState::ScreenFade::time} to 6

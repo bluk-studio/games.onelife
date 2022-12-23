@@ -1,0 +1,76 @@
+function Player_TransferringState_tick(player: player):
+    set {_location::blackRoom} to location at location at -4100, 61, -2719.5 in world "world"
+    
+    # First tick
+    if {%{_player}%::TransferringState::ticked} is not true:
+        set {%{_player}%::TransferringState::ticked} to true
+
+        set {_zoneId::current} to {%{_player}%::zoneId}
+        set {_placeId::current} to {%{_player}%::TransferringState::transferringFromPlace}
+
+        set {_zoneId::next} to {%{_player}%::TransferringState::transferToZone}
+        set {_placeId::next} to {%{_player}%::TransferringState::transferToPlace}
+
+        # Trip type
+        set {_tripType} to {%{_player}%::TransferringState::tripType}
+
+        if {_zoneId::next} is not set or {_zoneId::current} is not set or {_tripType} is not set:
+            # todo
+            # report error
+            set {%{_player}%::state} to "playing"
+            stop
+
+        # Calculating trip duration
+        set {%{_player}%::TransferringState::tripDuration} to Player_TransferringState_calculateTripDuration("%{_zoneId::current}%;%{_placeId::current}%", "%{_zoneId::next}%;%{_placeId::next}%")
+
+        # Starting screen fade animation
+        # (we need to persist current player's location and inventory for added effect)
+        Player_TransferringState_startScreenFadeAnimation({_player}, false)
+
+    # Cleaner
+    if {%{_player}%::state} isn't "transferring":
+        delete {%{_player}%::TransferringState::*}
+        stop
+
+    # ScreenFade Animation
+    if {%{_player}%::TransferringState::ScreenFade::time} is set:
+        reduce {%{_player}%::TransferringState::ScreenFade::time} by 0.05
+
+        if {%{_player}%::TransferringState::ScreenFade::time} <= 0:
+            delete {%{_player}%::TransferringState::ScreenFade::time}
+
+        stop
+
+    # Gamemode
+    if {_player}'s gamemode isn't spectator:
+        set {_player}'s gamemode to spectator
+
+    # Keeping our player in fully black room
+    if distance between {_player} and {_location::blackRoom} >= 0.1:
+        teleport {_player} to {_location::blackRoom}
+
+    # Sending trip information to player
+    send title "Trip" with subtitle "%{%{_player}%::TransferringState::tripDuration}%" to {_player}
+
+    # Updating our trip timer
+    if {%{_player}%::TransferringState::tripDuration} > 0:
+        reduce {%{_player}%::TranserringState::tripDuration} by 0.05
+    else:
+        # Updating player's location
+        set {_zoneId} to {%{_player}%::TransferringState::transferToZone}
+        set {_placeId} to {%{_player}%::TransferringState::transferToPlace}
+
+        set {_location} to random element of {zones::%{_zoneId}%::place::%{_placeId}%::spawnLocations::*}
+        teleport player to {_location}
+
+        # Getting additional location information
+        set {_isSitting} to {zones::%{_zoneId}%::place::%{_placeId}%::spawnLocation::%{_location}%::isSitting}
+
+        if {_isSitting}:
+            # todo
+
+        # Updating player's state
+        set {%{_player}%::state} to "playing"
+
+        # PLaying screen fade animation (but in reverse)
+        Player_TransferringState_startScreenFadeAnimation({_player}, true)

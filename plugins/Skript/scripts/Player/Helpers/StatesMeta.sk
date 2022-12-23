@@ -1,0 +1,11 @@
+function Player_isInGameState(state: string) :: boolean:
+    set {_meta::*} to Player_getStateMeta({_state})
+    return {_meta::1}
+
+# format:
+# is in-game state (true/false);
+function Player_getStateMeta(state: string) :: strings: 
+    if {_state} is "playing":
+        return true
+    else:
+        return false

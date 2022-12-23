@@ -1,0 +1,36 @@
+function Player_TransferringState_calculateTripDuration(tripType: string, fromPlace: string, toPlace: string) :: number:
+    # Parsing
+    # format:
+    # 0 => zoneId
+    # 1 => placeId
+    set {_from::*} to Player_TransferringState_CalculateTripDuration_parsePlaceString({_fromPlace})
+    set {_to::*} to Player_TransferringState_CalculateTripDuration_parsePlaceString({_toPlace})
+
+    # Calculating trip duration depending on zone's location and tripType
+    if {_tripType} is "bus":
+        return 30
+    else if {_tripType} is "railway":
+        return 15
+
+# > Inner helper function
+# 
+# Parse Place String
+# | Format: <zoneId>;<placeId>
+function Player_TransferringState_CalculateTripDuration_parsePlaceString(placeId: string) :: strings:
+    set {_temp::*} to {_placeId} split at ";"
+
+    # Checking zoneId
+    set {_zoneId} to {_temp::1}
+    if {zones::%{_zoneId}%::isLoaded} is not true:
+        # todo
+        # report error
+        stop
+
+    # Checking placeId
+    set {_placeId} to {_temp::2}
+    if {zones::%{_zoneId}%::placeIds::*} doesn't contain {_placeId}:
+        # todo
+        # report error
+        stop
+
+    return {_zoneId} and {_placeId}

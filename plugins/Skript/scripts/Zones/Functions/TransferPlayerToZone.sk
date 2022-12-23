@@ -1,0 +1,64 @@
+function Zones_TransferPlayerToZone(player: player, placeId: string, type: string) :: boolean:
+    set {_zoneId::current} to {%{_player}%::zoneId}
+    if {_zoneId::current} is not set:
+        # todo
+        # report error
+        return false
+
+    # Checking this player's state
+    if Player_isInGameState({%{_player}%::state}):
+        # Checking if we have this zone information
+        if {zones::%{_zoneId}%::isLoaded} isn't true:
+            # todo
+            # report error
+            return false
+
+        # Checking trip type
+        # format: <bus/train>;<bus stop id/train stop id>
+        set {_temp::*} to {_type} split at ";"
+        if  does not contain {_temp::1}:
+            return false
+
+        set {_type} to {_temp::1}
+        set {_departurePlaceId} to {_temp::2}
+
+        # Parsing placeId
+        # format: <zoneId>/<placeId>
+        set {_temp::*} to {_placeId} split at ";"
+        
+        set {_zoneId} to {_temp::1}
+        set {_placeId} to {_temp::2}
+
+        # Checking if this zone and place even exists
+        if {zones::%{_zoneId}%::isLoaded} is not true:
+            return false
+        else:
+            if {zones::%{_zone}%::placeIds::*} doesn't contain {_placeId}:
+                return false
+
+        # Checking if player's current zone have this departure place id
+        if {zones::%{zoneId::current}%::placeIds::*} doesn't contain {_departurePlaceId}:
+            return false
+
+        # Updating this player's state to "transferring"
+        set {%{_player}%::state} to "transferring"
+
+        # Transferring from
+        set {%{_player}%::TransferringState::transferToZone} to {_zoneId}
+        set {%{_player}%::TransferringState::transferToPlace} to {_placeId}
+
+        # Transferring to
+        set {%{_player}%::TransferringState::transferringFromPlace} to {_departurePlaceId}
+
+        # Other information
+        set {%{_player}%::TransferringState::tripType} to {_type}
+    
+        # Operation succesful
+        return true
+    else:
+        # Can not transfer this player to zone
+        # (because this player isn't in "in-game" state)
+        
+        # todo
+        # report error
+        return false

@@ -1,9 +1,9 @@
 function Player_ChoosingCharacterState_tick(player: player):
   # First tick
-  set {_location} to location at -1600, 82, 993.5 in world "world"
-  set {_location}'s yaw to 90
+  set {_location} to location at -4100, 74, -2719.5 in world "world"
+  set {_location}'s yaw to -90
   
-  set {_location::editingField} to location at -1578, 82, 993.5 in world "world"
+  set {_location::editingField} to location at -4100, 61, -2719.5 in world "world"
 
   if {%{_player}%::ChoosingCharacterState::ticked} is not true:
     set {%{_player}%::ChoosingCharacterState::ticked} to true
@@ -80,20 +80,25 @@ function Player_ChoosingCharacterState_updateState(player: player, state: string
   delete {%{_player}%::ChoosingCharacterState::isHovering}
 
   if {_state} is "choosing":
-    broadcast "choosing stage"
     set {%{_player}%::ChoosingCharacterState::state} to "choosing"
     if {%{_player}%::ChoosingCharacterState::currentCharacter} is not set:
       set {%{_player}%::ChoosingCharacterState::currentCharacter} to 1
 
     # Default buttons for this state
-    Player_ChoosingCharacterState_NextCharacterButton_createButton({_player})
-    Player_ChoosingCharacterState_PreviousCharacterButton_createButton({_player})
+    set {_buttons::*} to "NextCharacter", "PreviousCharacter"
+
+    loop {_buttons::*}:
+      evaluate "Player_ChoosingCharacterState_%loop-value%Button_createButton({_player})"
+
   else if {_state} is "editing":
-    broadcast "to editing stage"
     set {%{_player}%::ChoosingCharacterState::state} to "editing"
 
+    # Buttons
+    set {_buttons::*} to "CharacterAge", "CharacterName", "CharacterGender", "OtherCategories"
+
     # Default buttons for this state
-    Player_ChoosingCharacterState_CharacterAgeButton_createButton({_player})
-    Player_ChoosingCharacterState_CharacterNameButton_createButton({_player})
-    Player_ChoosingCharacterState_CharacterGenderButton_createButton({_player})
-    Player_ChoosingCharacterState_OtherCategoriesButton_createButton({_player})
+    loop {_buttons::*}:
+      evaluate "Player_ChoosingCharacterState_%loop-value%Button_createButton({_player})"
+    # Player_ChoosingCharacterState_CharacterNameButton_createButton({_player})
+    # Player_ChoosingCharacterState_CharacterGenderButton_createButton({_player})
+    # Player_ChoosingCharacterState_OtherCategoriesButton_createButton({_player})

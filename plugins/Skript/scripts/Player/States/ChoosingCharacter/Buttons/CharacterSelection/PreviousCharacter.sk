@@ -1,6 +1,6 @@
 options:
-  hologram_location: -1603.5, 83.45, 995.4
-  stand_location: -1603.5, 82.5, 995.5
+  hologram_location: -4096.5, 75.5, -2721.5
+  stand_location: -4098, 75, -2720.5
 
 function Player_ChoosingCharacterState_PreviousCharacterButton_createButton(player: player):
   # Button location
@@ -59,6 +59,7 @@ function Player_ChoosingCharacterState_PreviousCharacterButton_createButton(play
         set {%{_player}%::ChoosingCharacterState::isHovering} to false
 
     # Updating state
+    # broadcast "state: %{_state}% %{_player}'s target%"
     Player_ChoosingCharacterState_PreviousCharacterButton_updateState({_player}, {_state})
 
     # Checking if player pressed this button or no
@@ -89,7 +90,7 @@ function Player_ChoosingCharacterState_PreviousCharacterButton_updateState(playe
 
     if size of all lines of hologram {_hologram} < 3:
       # Updating hologram
-      set line 3 of hologram {_hologram} to "&a&l/ &f&lРедактировать"
+      set line 3 of hologram {_hologram} to "&a&l-> &f&lПерейти"
   else if {_state} is "not_hovered":
     # Checking last line of hologram
     if size of all lines of hologram {_hologram} >= 3:

@@ -3,8 +3,8 @@ import:
 
 function Player_ChoosingCharacterState_CreateNPC(player: player):
   # Getting npc's location
-  set {_location} to location at -1604, 82, 993.5 in world "world"
-  set {_location}'s yaw to -90
+  set {_location} to location at -4095, 74, -2719.5 in world "world"
+  set {_location}'s yaw to 90
 
   # Getting character skin
 

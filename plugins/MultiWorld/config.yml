@@ -1,0 +1,5 @@
+language: English
+
+world:
+    not-delete:
+        world: true
