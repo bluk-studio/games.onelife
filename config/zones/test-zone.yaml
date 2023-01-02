@@ -2,6 +2,13 @@ test:
   zone:
     center: -100, 20, 300
     borders:
-    - "coords"
-    - "coords"
-    
+    - -10, 20, 300
+    - 10, 20, -300
+    places:
+      test:
+        type: bus
+        coords: -100, 20, 300
+      
+      test2:
+        type: bus
+        coords: -100, 20, 300

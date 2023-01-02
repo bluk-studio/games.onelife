@@ -3,6 +3,7 @@
 #
 # version: 2.6.3
 
+cc957035-affe-3e9d-a31a-11a606972ef5::choosingcharacterstate::buttonclicktimeout, long, 0000000000000001
 character::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::1::age, long, 0000000000000013
 character::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::1::food, float, 41080000
 character::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::1::gender, string, 80046D616C65
@@ -54,6 +55,7 @@ character::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::2::surname, string, 800ED093D0B
 character::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::<none>::skill::cooking::level, long, 0000000000000005
 character::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::<none>::skills::points, long, 0000000000000005
 character::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::<none>::skills::upgradablepoints, long, 0000000000000005
+player, offlineplayer, 810475756964800455554944820C6C656173745369674269747304A31A11A606972EF50B6D6F73745369674269747304CC957035AFFE3E9D
 player::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::currentcharacter, long, 0000000000000001
 player::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::mass, long, 0000000000000000
 player::f1e8d4d0-54b9-3d56-b5d0-3ae953b8752f::previousmass, long, 0000000000000000

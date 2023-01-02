@@ -17,12 +17,56 @@ function Zones_parseZone(path: string, file: string) :: boolean:
         return false
 
     # > Zone borders
+    set {_borders::raw::*} to yaml list "%{_path}%.borders" from {_file}
+    if size of {_borders::raw::*} isn't 2:
+        broadcast "&c[Zones] &fError while parsing zone (%{_path}% from %{_file}%): invalid size of border coordinates"    
+        stop
+    
+    set {_borders::1} to Helpers_parseLocation({_borders::raw::1}, "world")
+    set {_borders::2} to Helpers_parseLocation({_borders::raw::2}, "world")
+
+    if {_borders::1} or {_borders::2} is not set:
+        broadcast "&c[Zones] &fError while parsing zone (%{_path}% from %{_file}%): invalid borders coordinates"
+        stop
 
     # > Zone places (bus stops, metro stations, etc.)
+    loop all yaml nodes from {_file}:
+        set {_loopPath} to loop-value
 
+        {_loopPath} starts with "%{_path}%.places"
+        {_loopPath} ends with ".type":
+            replace all ".type" in {_loopPath} with ""
+
+            # Parsing this place
+            Zones_parseZonePlace({_id}, {_loopPath}, {_file})
 
     # Saving all data
     set {zones::%{_id}%::isLoaded} to true
     set {zones::%{_id}%::center} to {_zone::center}
+    set {zones::%{_id}%::borders::*} to {_borders::*}
 
-function Zones_parseZonePlace(zoneId: string, place: string, file: string) :: boolean:
+function Zones_parseZonePlace(zoneId: string, placeId: string, file: string) :: boolean:
+    broadcast "[Zones] Trying to parse zone place %{_placeId}% from %{_file}%"
+
+    # Checking if we already have place with this id or no
+    if {zones::%{_zoneId}%::place::%{_placeId}%::isLoaded} is set:
+        broadcast "&c[Zones] &fError while loading place %{_placeId}%: place with this id already exists"
+        stop
+
+    # Getting place type
+    set {_type} to yaml value "%{_placeId}%.type" from {_file}
+    if {_type} isn't "bus" or "metro":
+        broadcast "&c[Zones] &fError while loading place %{_placeId}% (file: %{_file}%): invalid place type"
+        stop
+
+    # Place coordinates
+    set {_coordinates} to Helpers_parseLocation(yaml value "%{_placeId}%.coords" from {_file}, "world")
+    if {_coordinates} is not set:
+        broadcast "&c[Zones] &fError while loading place %{_placeId}% (file: %{_file}%): invalid place coordinates"
+        stop
+
+    # Saving all data
+    set {zones::%{_zoneId}%::place::%{_placeId}%::isLoaded} to true
+
+    set {zones::%{_zoneId}%::place::%{_placeId}%::type} to {_type}
+    set {zones::%{_zoneId}%::place::%{_placeId}%::coordinates} to {_coordinates}
