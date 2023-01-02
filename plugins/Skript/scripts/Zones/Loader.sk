@@ -1,0 +1,38 @@
+options:
+    rootFolder: "config/zones"
+
+on script load:
+    wait 1 second
+
+    load all yaml from directory {@rootFolder}
+
+    # Processing loaded yaml values
+    loop all currently loaded yaml files:
+        set {_file} to loop-value
+
+        if {_file} doesn't start with {@rootFolder}:
+            continue
+
+        # Looping all yaml nodes and trying to determine which one
+        # has a zone definition in it
+        loop all yaml nodes of {_file}:
+            set {_path} to loop-value-2
+            set {_value} to yaml value loop-value-2 from {_file}
+
+            if {_path} ends with "center":
+                # It's probably an zone definition, so let's parse it!
+                replace all ".center" in {_path} with ""
+
+                # Parsing
+                Zones_parseZone({_path}, {_file})
+
+on script unload:
+    delete {zones::*}
+
+    # Unloading all zone-related yaml files
+    loop all currently loaded yaml files:
+        set {_file} to loop-value
+        
+        if {_file} starts with {@rootFolder}:
+            broadcast "&9[Zones] &fUnloading yaml file %{_file}%"
+            unload yaml {_file}

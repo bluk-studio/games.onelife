@@ -3,6 +3,12 @@ function Items_General_loadItem(path: string, file: string) :: boolean:
   broadcast "[Items] Loading item: %{_path}% from %{_file}%"
 
   set {_id} to {_path}
+
+  # Checking if item with this id is already loaded or no
+  if {item::%{_id}%::item} is set:
+    broadcast "&c[Items] &fError while loading item (%{_path}% from %{_file}%): item with this id is already loaded"
+    stop
+
   if {items::*} contain {_id}:
     broadcast "&c[Items] &fDuplicate item found %{_path}% from %{_file}%"
     return false

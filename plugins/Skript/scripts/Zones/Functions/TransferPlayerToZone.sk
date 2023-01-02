@@ -16,7 +16,7 @@ function Zones_TransferPlayerToZone(player: player, placeId: string, type: strin
         # Checking trip type
         # format: <bus/train>;<bus stop id/train stop id>
         set {_temp::*} to {_type} split at ";"
-        if  does not contain {_temp::1}:
+        if Player_TransferringState_TripTypes_getAvailableTripTypes() does not contain {_temp::1}:
             return false
 
         set {_type} to {_temp::1}
@@ -25,7 +25,7 @@ function Zones_TransferPlayerToZone(player: player, placeId: string, type: strin
         # Parsing placeId
         # format: <zoneId>/<placeId>
         set {_temp::*} to {_placeId} split at ";"
-        
+         
         set {_zoneId} to {_temp::1}
         set {_placeId} to {_temp::2}
 

@@ -1,0 +1,7 @@
+test:
+  zone:
+    center: -100, 20, 300
+    borders:
+    - "coords"
+    - "coords"
+    

@@ -14,14 +14,14 @@ function Player_TransferringState_tick(player: player):
         # Trip type
         set {_tripType} to {%{_player}%::TransferringState::tripType}
 
-        if {_zoneId::next} is not set or {_zoneId::current} is not set or {_tripType} is not set:
+        if {_zoneId::next} or {_zoneId::current} or {_tripType} is not set:
             # todo
             # report error
             set {%{_player}%::state} to "playing"
             stop
 
         # Calculating trip duration
-        set {%{_player}%::TransferringState::tripDuration} to Player_TransferringState_calculateTripDuration("%{_zoneId::current}%;%{_placeId::current}%", "%{_zoneId::next}%;%{_placeId::next}%")
+        set {%{_player}%::TransferringState::tripDuration} to Player_TransferringState_calculateTripDuration({_tripType}, "%{_zoneId::current}%;%{_placeId::current}%", "%{_zoneId::next}%;%{_placeId::next}%")
 
         # Starting screen fade animation
         # (we need to persist current player's location and inventory for added effect)
@@ -61,7 +61,7 @@ function Player_TransferringState_tick(player: player):
         set {_placeId} to {%{_player}%::TransferringState::transferToPlace}
 
         set {_location} to random element of {zones::%{_zoneId}%::place::%{_placeId}%::spawnLocations::*}
-        teleport player to {_location}
+        teleport {_player} to {_location}
 
         # Getting additional location information
         set {_isSitting} to {zones::%{_zoneId}%::place::%{_placeId}%::spawnLocation::%{_location}%::isSitting}

@@ -1,0 +1,30 @@
+function Helpers_parseLocation(location: string, world: string) :: location:
+    replace all " " in {_location} with ""
+    
+    set {_meta::*} to {_location} split at ";"
+    if size of {_meta::*} isn't 1 or 2:
+        stop
+
+    set {_coords::*} to {_meta::1} split at ","
+    if size of {_coords::*} isn't 3:
+        stop
+
+    # todo
+    # Second element of {_meta::*} is yaw, pitch
+
+    # Parsing
+    set {_location} to location at 0, 0, 0 in world {_world}
+
+    set {_coords::named::x} to {_coords::1}
+    set {_coords::named::y} to {_coords::2}
+    set {_coords::named::z} to {_coords::3}
+
+    loop {_coords::named::*}:
+        set {_axis} to loop-index
+        set {_value} to loop-value parsed as number
+        if {_value} is not set:
+            stop
+
+        evaluate "set %{_axis}% coordinate of {_location} to %{_value}%"
+
+    return {_location}

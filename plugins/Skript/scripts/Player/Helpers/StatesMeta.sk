@@ -6,6 +6,6 @@ function Player_isInGameState(state: string) :: boolean:
 # is in-game state (true/false);
 function Player_getStateMeta(state: string) :: strings: 
     if {_state} is "playing":
-        return true
+        return "true"
     else:
-        return false
+        return "false"

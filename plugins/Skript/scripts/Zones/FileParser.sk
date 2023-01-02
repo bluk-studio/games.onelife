@@ -1,0 +1,28 @@
+function Zones_parseZone(path: string, file: string) :: boolean:
+    broadcast "[Zones] Trying to parse zone %{_path}% from %{_file}%"
+
+    # Zone id is it's path
+    set {_id} to {_path}
+
+    # Checking if we already have zone with this id in our database
+    if {zones::%{_id}%::isLoaded} is true:
+        broadcast "&c[Zones] &fError while loading zone (%{_path}% from %{_file}%): zone with this id is already loaded"
+        return false
+
+    # Parsing this zone information
+    # > Zone center
+    set {_zone::center} to Helpers_parseLocation(yaml value "%{_path}%.center" from {_file}, "world")
+    if {_zone::center} is not set:
+        broadcast "&c[Zones] &fError while parsing zone (%{_path}% from %{_file}%): invalid center coordinates"
+        return false
+
+    # > Zone borders
+
+    # > Zone places (bus stops, metro stations, etc.)
+
+
+    # Saving all data
+    set {zones::%{_id}%::isLoaded} to true
+    set {zones::%{_id}%::center} to {_zone::center}
+
+function Zones_parseZonePlace(zoneId: string, place: string, file: string) :: boolean:
